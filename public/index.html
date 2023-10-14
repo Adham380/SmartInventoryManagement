@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Management</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css">
+    <link href="./stylesheets/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+<div class="container mt-4">
+
+    <h1>Inventory Management</h1>
+
+    <!-- Add New Item Form -->
+    <form id="addItemForm" action="/addNewItem" method="post">
+        <div class="form-group">
+            <label for="barcode">Enter Barcode:</label>
+            <input type="text" class="form-control" id="barcode" name="barcode" required>
+        </div>
+        <button type="submit" class="btn btn-primary">Add Item</button>
+    </form>
+
+    <!-- Inventory Grid -->
+    <div class="row mt-4" id="inventoryGrid">
+        <!-- Inventory items will be populated here -->
+    </div>
+
+    <!-- Recipe Finder Form -->
+    <form id="recipeFinderForm" class="mt-4">
+        <h3>Find Recipe</h3>
+        <div class="form-group">
+            <label for="diet">Diet:</label>
+            <select class="form-control" id="diet" name="diet">
+                <option value="">Any</option>
+                <option value="vegan">Vegan</option>
+                <option value="vegetarian">Vegetarian</option>
+                <option value="glutenFree">Gluten Free</option>
+                <!-- Add more diet options as needed -->
+            </select>
+        </div>
+        <button type="submit" class="btn btn-primary">Find Recipe</button>
+    </form>
+    <div class="row mt-4" id="recipesSection">
+        <!-- Recipes will be populated here -->
+    </div>
+
+</div>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+<script>
+    const form = document.getElementById('addItemForm');
+    const barcodeInput = document.getElementById('barcode');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault(); // prevent default form submission behavior
+
+        const barcodeValue = barcodeInput.value;
+
+        try {
+            const response = await fetch('/addNewItem', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    barcode: barcodeValue
+                })
+            });
+
+            const data = await response;
+
+            if(data.status === 200) {
+                // success
+                alert('Item added successfully!');
+                barcodeInput.value = '';
+                await fetchAndDisplayInventory();
+            } else {
+                // error
+                alert('Error adding item!');
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+
+    async function fetchAndDisplayInventory() {
+        try {
+            const response = await fetch('/getInventory');
+            const inventory = await response.json();
+
+            const inventoryGrid = document.getElementById('inventoryGrid');
+            inventoryGrid.innerHTML = ''; // Clear previous items
+
+            for (let title in inventory) {
+                const item = inventory[title];
+
+                const itemDiv = document.createElement('div');
+                itemDiv.className = 'col-md-3';
+
+                const card = document.createElement('div');
+                card.className = 'card mt-2';
+
+                const cardBody = document.createElement('div');
+                cardBody.className = 'card-body';
+
+                // Image thumbnail
+                const itemImage = document.createElement('img');
+                itemImage.className = 'card-img-top';
+                itemImage.src = item.image; // Assuming the image property contains the direct link to the image
+                itemImage.alt = title;
+                card.appendChild(itemImage);
+
+                const titleElement = document.createElement('h5');
+                titleElement.className = 'card-title';
+                titleElement.textContent = title;
+                cardBody.appendChild(titleElement);
+
+                const quantityElement = document.createElement('p');
+                quantityElement.className = 'card-text';
+                quantityElement.textContent = `Quantity: ${item.count}`;
+                //TODO: Update the quantity in the database
+                cardBody.appendChild(quantityElement);
+
+                // Checkbox to select the item
+                const checkbox = document.createElement('input');
+                checkbox.type = 'checkbox';
+                checkbox.value = title;
+                checkbox.className = 'itemCheckbox';
+                cardBody.appendChild(checkbox);
+
+                const editButton = document.createElement('button');
+                editButton.className = 'btn btn-outline-secondary btn-sm edit-button';
+                editButton.innerHTML = '<i class="fas fa-pencil-alt"></i>';
+                editButton.addEventListener('click', () => {
+                    // Handle the edit action here
+                    const newQuantity = prompt(`Edit quantity for ${title}`, item.quantity);
+                    if (newQuantity && !isNaN(newQuantity)) {
+                        item.quantity = parseInt(newQuantity);
+                        quantityElement.textContent = `Quantity: ${item.quantity}`;
+
+
+                        // You can also update the JSON/database here if required
+                    }
+                });
+                // Position the button to the top right of the card
+                editButton.style.position = 'absolute';
+                editButton.style.top = '10px';
+                editButton.style.right = '10px';
+
+                card.appendChild(editButton);
+                card.appendChild(cardBody);
+                itemDiv.appendChild(card);
+                inventoryGrid.appendChild(itemDiv);
+
+            }
+        } catch (error) {
+            console.error('Error fetching inventory:', error);
+        }
+    }
+
+    // Call the function to populate the grid on page load
+    fetchAndDisplayInventory();
+    function getSelectedItems() {
+        const checkboxes = document.querySelectorAll('.itemCheckbox:checked');
+        const selectedItems = [];
+
+        checkboxes.forEach(checkbox => {
+            selectedItems.push(checkbox.value);
+        });
+
+        return selectedItems;
+    }
+
+    const recipeFinderForm = document.getElementById('recipeFinderForm');
+    const dietInput = document.getElementById('diet');
+    //get the selected items and diet and send them to the server to find a recipe with /getRecipe
+    recipeFinderForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const selectedItems = getSelectedItems();
+        const dietValue = dietInput.value;
+
+        try {
+            const response = await fetch('/getRecipe', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    selectedItems: selectedItems,
+                    diet: dietValue
+                })
+            });
+
+            const recipes = await response.json();
+
+            if(response.status === 200) {
+                // success
+                alert('Recipes found successfully!');
+
+                const recipesSection = document.getElementById('recipesSection');
+                recipesSection.innerHTML = '';  // Clear previous recipes
+
+                recipes.forEach(recipe => {
+                    const recipeDiv = document.createElement('div');
+                    recipeDiv.className = 'col-md-3';
+
+                    const card = document.createElement('div');
+                    card.className = 'card mt-2';
+
+                    // Image thumbnail
+                    const recipeImage = document.createElement('img');
+                    recipeImage.className = 'card-img-top';
+                    recipeImage.src = recipe.image;
+                    recipeImage.alt = recipe.title;
+                    card.appendChild(recipeImage);
+
+                    const cardBody = document.createElement('div');
+                    cardBody.className = 'card-body';
+
+                    const titleElement = document.createElement('h5');
+                    titleElement.className = 'card-title';
+                    titleElement.textContent = recipe.title;
+                    cardBody.appendChild(titleElement);
+
+                    // Just showing the title and image for now. Adjust for other data as needed.
+
+                    card.appendChild(cardBody);
+                    recipeDiv.appendChild(card);
+                    recipesSection.appendChild(recipeDiv);
+                });
+
+            } else {
+                // error
+                alert('Error finding recipes!');
+            }
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    });
+
+
+
+    //every few seconds, update the inventory
+    setInterval(async () => {
+        await fetchAndDisplayInventory();
+    }, 5000);
+</script>
+
+
+
+</body>
+
+</html>

@@ -28,8 +28,8 @@ app.use('/users', usersRouter);
 app.use('/hello', function(req, res, next) {
     res.send('Ich mache was! :P');
 })
-app.get('/inventory', function(req, res, next) {
-    res.render('inventory');
+app.get('/inventory', function(req, res) {
+    res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.get('/getInventory', function(req, res, next) {
@@ -93,7 +93,7 @@ async function getBarcodeInfo(barcode) {
     }
 }
 //spoonacular api call. Get ingredients from text
-async function extractIngredientList(text) {
+async function extractIngredientList(items) {
     const ingredientText = items.join("\n");
     const apiUrl = "https://api.spoonacular.com/recipes/parseIngredients?apiKey=6e1e5b3c0e34460b8b4ac864c2b36ed7&language=en";
 
@@ -140,18 +140,16 @@ async function getRecipe(ingredients, number, diet) {
 }
 
 app.post('/getRecipe', async function (req, res, next) {
-    // const ingredients = req.body.ingredients;
-    // const number = req.body.number;
-    // const diet = req.body.diet;
-    //get all items.title from items array
-    // const ingredients = items.map(item => item.title)
-    const ingredients = loadData().map(item => item.title);
-    // const ingredients = "chicken, tomato, onion, garlic, salt, pepper, oil"
-    // console.log(ingredients);
-    // console.log(text)
+   // body: JSON.stringify({
+    //                     selectedItems: selectedItems,
+    //                     diet: dietValue
+    //                 })
+    const ingredients = req.body.selectedItems;
+    const diet = req.body.diet;
+    console.log(ingredients);
     const ingredientList = await extractIngredientList(ingredients);
     const ingredientListNames = ingredientList.map(ingredient => ingredient.name);
-    const recipe = await getRecipe(ingredientListNames, 1, undefined);
+    const recipe = await getRecipe(ingredientListNames, 1, diet);
     console.log(recipe);
     res.send(recipe);
 })
@@ -163,7 +161,7 @@ app.post('/addNewItem', async function (req, res, next) {
     let inventory = loadData(); // Load existing data
 
     if (itemInfo.status === "failure") {
-        console.log("Item not found");
+        console.log("Item with barcode " + barcode + " not found");
         res.status(400).send('Item not found');
     } else {
         const title = itemInfo.title; // Adjusted according to your specification
@@ -190,6 +188,27 @@ app.post('/addNewItemManual', async function (req, res, next) {
         inventory[title].count += 1; // Increment the count
     } else {
         inventory[title] = { title: title, barcode: barcode, count: 1 }; // Add new item with count 1
+    }
+
+    saveData(inventory); // Save the updated data
+    res.send('Item added to database');
+})
+app.get('/getInventory', function(req, res, next) {
+    const inventory = loadData();
+    res.json(inventory);
+})
+app.post('/addItemByTitle', async function (req, res, next) {
+    const title = req.body.title;
+    const inventory = loadData();
+
+    // Check if the item already exists
+    if (inventory[title]) {
+        inventory[title].count += 1; // Increment the count
+    } else {
+        //get item info from api extractIngredientList
+        const itemInfo = await extractIngredientList(title);
+        inventory[title] = { ...itemInfo, count: 1 }; // Add new item with count 1
+
     }
 
     saveData(inventory); // Save the updated data

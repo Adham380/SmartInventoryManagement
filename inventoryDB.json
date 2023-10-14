@@ -101,6 +101,390 @@
         "ingredients": [],
         "ingredientCount": 0,
         "ingredientList": "",
+        "count": 4
+    },
+    "Maximal G  sugarfree": {
+        "id": 9246272,
+        "title": "Maximal G  sugarfree",
+        "price": 0,
+        "likes": 0,
+        "badges": [
+            "egg_free",
+            "peanut_free",
+            "sulfite_free",
+            "nut_free",
+            "no_preservatives",
+            "soy_free",
+            "msg_free",
+            "no_artificial_colors",
+            "sugar_free",
+            "no_artificial_flavors",
+            "no_artificial_ingredients",
+            "no_additives",
+            "corn_free",
+            "dairy_free",
+            "gluten_free"
+        ],
+        "importantBadges": [
+            "gluten_free"
+        ],
+        "nutrition": {
+            "nutrients": [
+                {
+                    "name": "Carbohydrates",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Fat",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Saturated Fat",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Protein",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Sodium",
+                    "amount": 0.2,
+                    "unit": "mg",
+                    "percentOfDailyNeeds": 0.01
+                },
+                {
+                    "name": "Sugar",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Net Carbohydrates",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                }
+            ],
+            "caloricBreakdown": {
+                "percentProtein": 0,
+                "percentFat": 0,
+                "percentCarbs": 0
+            },
+            "calories": null,
+            "fat": "0g",
+            "protein": "0g",
+            "carbs": "0g"
+        },
+        "servings": {
+            "number": 1,
+            "size": null,
+            "unit": null
+        },
+        "spoonacularScore": 17.5,
+        "breadcrumbs": [
+            "non food item"
+        ],
+        "aisle": null,
+        "description": null,
+        "image": "https://spoonacular.com/productImages/9246272-312x231.jpg",
+        "imageType": "jpg",
+        "images": [
+            "https://spoonacular.com/productImages/9246272-90x90.jpg",
+            "https://spoonacular.com/productImages/9246272-312x231.jpg",
+            "https://spoonacular.com/productImages/9246272-636x393.jpg"
+        ],
+        "generatedText": "Thinking about having some non food item today? Maximal G sugarfree is one option; let's take a closer look. We recommend choosing products with short ingredient lists, as these tend to be less processed. This product has 17 ingredients. According to our research, this product contains no ingredients that you should avoid.",
+        "upc": "4388844254831",
+        "brand": null,
+        "ingredients": [
+            {
+                "name": "aroma",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "farbstoff",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "032%",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "trinatriumcitrat",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "pantothensäure",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "taurin 0",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "koffein 0",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "niacin",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "vitamin b6",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "süßungsmittel",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "säuerungsmittel citronensäure",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "säureregulator",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "kohlensäure",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "ammoniak-zuckerkulör",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "wasser",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "acesulfam k",
+                "safety_level": "controversial",
+                "description": null
+            },
+            {
+                "name": "aspartam",
+                "safety_level": "controversial",
+                "description": null
+            }
+        ],
+        "ingredientCount": 17,
+        "ingredientList": "Wasser, Säuerungsmittel Citronensäure, Kohlensäure, Taurin 0,4%, Säureregulator (Trinatriumcitrat), Aroma, Süßungsmittel (Acesulfam K, Aspartam), Koffein 0,032%, Farbstoff (Ammoniak-Zuckerkulör), Niacin, Pantothensäure, Vitamin B6",
+        "count": 1
+    },
+    "Chiquita Juicy Red Apple & Grape Bites, 2.2 oz": {
+        "id": 40484,
+        "title": "Chiquita Juicy Red Apple & Grape Bites, 2.2 oz",
+        "price": 0.9800000190734863,
+        "likes": 0,
+        "badges": [
+            "egg_free",
+            "peanut_free",
+            "nut_free",
+            "vegan",
+            "soy_free",
+            "msg_free",
+            "no_artificial_colors",
+            "sugar_free",
+            "no_artificial_flavors",
+            "vegetarian",
+            "no_artificial_ingredients",
+            "corn_free",
+            "dairy_free",
+            "gluten_free"
+        ],
+        "importantBadges": [
+            "gluten_free"
+        ],
+        "nutrition": {
+            "nutrients": [
+                {
+                    "name": "Calcium",
+                    "amount": 20,
+                    "unit": "mg",
+                    "percentOfDailyNeeds": 2
+                },
+                {
+                    "name": "Carbohydrates",
+                    "amount": 10,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 3.33
+                },
+                {
+                    "name": "Cholesterol",
+                    "amount": 0,
+                    "unit": "mg",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Calories",
+                    "amount": 35,
+                    "unit": "kcal",
+                    "percentOfDailyNeeds": 1.75
+                },
+                {
+                    "name": "Fat",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Saturated Fat",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Trans Fat",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Fiber",
+                    "amount": 1,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 4
+                },
+                {
+                    "name": "Iron",
+                    "amount": 0,
+                    "unit": "mg",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Potassium",
+                    "amount": 80,
+                    "unit": "mg",
+                    "percentOfDailyNeeds": 2.29
+                },
+                {
+                    "name": "Protein",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Sodium",
+                    "amount": 0,
+                    "unit": "mg",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Sugar",
+                    "amount": 7,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 7.78
+                },
+                {
+                    "name": "Vitamin A",
+                    "amount": 0,
+                    "unit": "IU",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Vitamin C",
+                    "amount": 99,
+                    "unit": "mg",
+                    "percentOfDailyNeeds": 120
+                },
+                {
+                    "name": "Net Carbohydrates",
+                    "amount": 9,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 3.27
+                }
+            ],
+            "caloricBreakdown": {
+                "percentProtein": 0,
+                "percentFat": 0,
+                "percentCarbs": 100
+            },
+            "calories": 35,
+            "fat": "0g",
+            "protein": "0g",
+            "carbs": "10g"
+        },
+        "servings": {
+            "number": 1,
+            "size": 71,
+            "unit": "g"
+        },
+        "spoonacularScore": 97.5,
+        "breadcrumbs": [
+            "grapes",
+            "fruit",
+            "flavor"
+        ],
+        "aisle": "Produce",
+        "description": "<ul>  <li>Apple &amp; Grape, Juicy Red</li>  <li>Washed &amp; ready to eat. 35 calories. Excellent source of vitamin C. It's easy to make fruit and veggies a part of your plate with Chiquita Bites! Toss them into lunch boxes or just grab and go - they are a quick, easy and fun way to snack healthy. Chiquita Apple Bites are an excellent source of vitamin C. Vitamin C contributes to the reduction of fatigue. Questions? Comments? Call 1-800-242-5472 or visit www.chiquita.com. ChooseMyPlate.gov. Learn more about healthy eating at choosemyplate.gov. Product of USA &amp; Chile.</li> </ul>",
+        "image": "https://spoonacular.com/productImages/40484-312x231.jpg",
+        "imageType": "jpg",
+        "images": [
+            "https://spoonacular.com/productImages/40484-90x90.jpg",
+            "https://spoonacular.com/productImages/40484-312x231.jpg",
+            "https://spoonacular.com/productImages/40484-636x393.jpg"
+        ],
+        "generatedText": "Primal and craving grape? Chiquita Juicy Red Apple & Grape Bites, 2.2 oz might be just the product you are looking for. We recommend choosing products with short ingredient lists, as these tend to be less processed. This product has 6 ingredients. Depending on your store and location, this product usually costs around 1 cents, which comes out to $0 per serving. If you're on a budget, you might rather put one of these cheaper products on your shopping list: <a href=\"/kool-aid-soft-drink-mix-grape-unsweetened-caffeine-free-014-oz-pack-of-15-p40484\">Kool-Aid Soft Drink Mix Grape Unsweetened, Caffeine Free - 0.14 Oz, Pack of 15</a>, <a href=\"/kool-aid-soft-drink-mix-grape-unsweetened-caffeine-free-014-oz-pack-of-15-p40484\">Kool-Aid Soft Drink Mix Grape Unsweetened, Caffeine Free - 0.14 Oz, Pack of 15</a>, <a href=\"/kool-aid-drink-mix-singles-grape-014-oz-pack-of-96-p40484\">Kool-Aid Drink Mix Singles, Grape, 0.14 OZ (Pack of 96)</a>, and <a href=\"/pure-grape-on-the-go-drink-mix-7-packet-box-6-box-pack-p40484\">Pure Grape On The Go Drink Mix 7-Packet Box 6 Box Pack</a>. If you're still making up your mind, you might want to take a look at these products too: <a href=\"/juice-grape-concord-64-fo-pack-of-3-p40484\">Juice Grape Concord, 64 fo （Pack of 3）</a>, <a href=\"/jel-sert-crush-12-6-to-go-grape-p40484\">Jel-sert Crush 12/6 To Go - Grape</a>, <a href=\"/honest-kids-grape-675-fl-oz-8-pack-p40484\">Honest Kids, Grape, 6.75 fl oz, 8 Pack</a>, and <a href=\"/crystal-light-pure-grape-on-the-go-drink-mix-7-packet-box-4-box-pack-p40484\">Crystal Light Pure Grape On The Go Drink Mix, 7-Packet Box (4 Box Pack)</a>.",
+        "upc": "074904201665",
+        "brand": "Chiquita",
+        "ingredients": [
+            {
+                "name": "calcium ascorbate",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "ascorbic acid",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "calcium",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "vitamin c",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "apples",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "grapes",
+                "safety_level": null,
+                "description": null
+            }
+        ],
+        "ingredientCount": 6,
+        "ingredientList": "Apples, Grapes, Calcium Ascorbate (Calcium, Ascorbic Acid [Vitamin C] Added to Maintain Color)",
         "count": 1
     }
 }
