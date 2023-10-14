@@ -486,5 +486,99 @@
         "ingredientCount": 6,
         "ingredientList": "Apples, Grapes, Calcium Ascorbate (Calcium, Ascorbic Acid [Vitamin C] Added to Maintain Color)",
         "count": 1
+    },
+    "Bread": {
+        "id": 18064,
+        "original": "Bread",
+        "originalName": "Bread",
+        "name": "bread",
+        "amount": 2,
+        "unit": "servings",
+        "unitShort": "servings",
+        "unitLong": "servings",
+        "possibleUnits": [
+            "piece",
+            "slice",
+            "g",
+            "ounce",
+            "loaf",
+            "oz",
+            "serving"
+        ],
+        "estimatedCost": {
+            "value": 20,
+            "unit": "US Cents"
+        },
+        "consistency": "solid",
+        "aisle": "Bakery/Bread",
+        "image": "white-bread.jpg",
+        "meta": [],
+        "count": 1
+    },
+    "Apple": {
+        "id": 9003,
+        "original": "Apple",
+        "originalName": "Apple",
+        "name": "apple",
+        "amount": 2,
+        "unit": "servings",
+        "unitShort": "servings",
+        "unitLong": "servings",
+        "possibleUnits": [
+            "small",
+            "large",
+            "piece",
+            "slice",
+            "g",
+            "extra small",
+            "medium",
+            "oz",
+            "cup slice",
+            "NLEA serving",
+            "cup",
+            "serving"
+        ],
+        "estimatedCost": {
+            "value": 41.39,
+            "unit": "US Cents"
+        },
+        "consistency": "solid",
+        "shoppingListUnits": [
+            "pieces"
+        ],
+        "aisle": "Produce",
+        "image": "apple.jpg",
+        "meta": [],
+        "count": 1
+    },
+    "Flour": {
+        "id": 20081,
+        "original": "Flour",
+        "originalName": "Flour",
+        "name": "flour",
+        "amount": 2,
+        "unit": "servings",
+        "unitShort": "servings",
+        "unitLong": "servings",
+        "possibleUnits": [
+            "g",
+            "oz",
+            "teaspoon",
+            "cup",
+            "serving",
+            "tablespoon"
+        ],
+        "estimatedCost": {
+            "value": 2,
+            "unit": "US Cents"
+        },
+        "consistency": "solid",
+        "shoppingListUnits": [
+            "ounces"
+        ],
+        "aisle": "Baking",
+        "image": "flour.png",
+        "meta": [],
+        "count": 1
     }
 }

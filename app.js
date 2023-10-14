@@ -94,6 +94,7 @@ async function getBarcodeInfo(barcode) {
 }
 //spoonacular api call. Get ingredients from text
 async function extractIngredientList(items) {
+    if(!Array.isArray(items)) items = [items];
     const ingredientText = items.join("\n");
     const apiUrl = "https://api.spoonacular.com/recipes/parseIngredients?apiKey=6e1e5b3c0e34460b8b4ac864c2b36ed7&language=en";
 
@@ -207,13 +208,31 @@ app.post('/addItemByTitle', async function (req, res, next) {
     } else {
         //get item info from api extractIngredientList
         const itemInfo = await extractIngredientList(title);
-        inventory[title] = { ...itemInfo, count: 1 }; // Add new item with count 1
+        console.log(itemInfo);
+        inventory[title] = { ...itemInfo[0], count: 1 }; // Add new item with count 1
 
     }
 
     saveData(inventory); // Save the updated data
     res.send('Item added to database');
 })
+app.patch('/updateItem', async function (req, res, next) {
+    const title = req.body.title;
+    const inventory = loadData();
+    // Check if the item already exists
+    if (inventory[title]) {
+        if(req.body.count == 0) {
+            delete inventory[title];
+        } else {
+            inventory[title].count = req.body.count;
+        }
+    } else {
+        res.status(400).send('Item not found');
+    }
+    saveData(inventory); // Save the updated data
+    res.send('Item updated in database');
+})
+
 //remove item from database
 app.delete('/removeItem', async function (req, res, next) {
     const title = req.body.title;
@@ -239,7 +258,6 @@ app.delete('/removeItem', async function (req, res, next) {
 app.use(function(req, res, next) {
   next(createError(404));
 });
-
 // error handler
 app.use(function(err, req, res, next) {
   // set locals, only providing error in development

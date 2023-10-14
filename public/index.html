@@ -19,11 +19,19 @@
     <!-- Add New Item Form -->
     <form id="addItemForm" action="/addNewItem" method="post">
         <div class="form-group">
-            <label for="barcode">Enter Barcode:</label>
-            <input type="text" class="form-control" id="barcode" name="barcode" required>
+            <label for="inputMethod">Enter Item By:</label>
+            <select class="form-control" id="inputMethod" name="inputMethod" onchange="updateInputFields()">
+                <option value="barcode">Barcode</option>
+                <option value="productName">Product Name</option>
+                <!-- Additional methods can be added here in the future -->
+            </select>
+        </div>
+        <div class="form-group" id="inputFieldDiv">
+            <input type="text" class="form-control" id="inputField" name="inputField" required>
         </div>
         <button type="submit" class="btn btn-primary">Add Item</button>
     </form>
+
 
     <!-- Inventory Grid -->
     <div class="row mt-4" id="inventoryGrid">
@@ -56,41 +64,62 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
+
+
     const form = document.getElementById('addItemForm');
     const barcodeInput = document.getElementById('barcode');
+
+    function updateInputFields() {
+        const inputMethod = document.getElementById('inputMethod').value;
+        const inputFieldDiv = document.getElementById('inputFieldDiv');
+        const inputField = document.getElementById('inputField');
+
+        if (inputMethod === 'barcode') {
+            inputField.setAttribute('placeholder', 'Enter Barcode');
+        } else if (inputMethod === 'productName') {
+            inputField.setAttribute('placeholder', 'Enter Product Name');
+        }
+        // Additional conditions for new methods can be added here in the future
+    }
+
+    // Initial call to set the correct placeholder on page load
+    updateInputFields();
+
 
     form.addEventListener('submit', async (e) => {
         e.preventDefault(); // prevent default form submission behavior
 
-        const barcodeValue = barcodeInput.value;
+        const inputMethod = document.getElementById('inputMethod').value;
+        const inputValue = document.getElementById('inputField').value;
+
+        let endpoint;
+        let payload;
+
+        if (inputMethod === 'barcode') {
+            endpoint = '/addNewItem';
+            payload = { barcode: inputValue };
+        } else if (inputMethod === 'productName') {
+            endpoint = '/addItemByTitle';
+            payload = { title: inputValue };
+        }
+        // Additional conditions for new methods can be added here in the future
 
         try {
-            const response = await fetch('/addNewItem', {
+            const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({
-                    barcode: barcodeValue
-                })
+                body: JSON.stringify(payload)
             });
 
-            const data = await response;
-
-            if(data.status === 200) {
-                // success
-                alert('Item added successfully!');
-                barcodeInput.value = '';
-                await fetchAndDisplayInventory();
-            } else {
-                // error
-                alert('Error adding item!');
-            }
+            // Rest of the submission logic remains the same
 
         } catch (error) {
             console.error('Error:', error);
         }
     });
+
 
     async function fetchAndDisplayInventory() {
         try {
@@ -115,7 +144,11 @@
                 // Image thumbnail
                 const itemImage = document.createElement('img');
                 itemImage.className = 'card-img-top';
-                itemImage.src = item.image; // Assuming the image property contains the direct link to the image
+                if(!item.image.includes('http')){
+                itemImage.src = "https://spoonacular.com/cdn/ingredients_500x500/" + item.image;
+                } else {
+                itemImage.src = item.image;
+                }
                 itemImage.alt = title;
                 card.appendChild(itemImage);
 
@@ -124,11 +157,10 @@
                 titleElement.textContent = title;
                 cardBody.appendChild(titleElement);
 
-                const quantityElement = document.createElement('p');
-                quantityElement.className = 'card-text';
-                quantityElement.textContent = `Quantity: ${item.count}`;
-                //TODO: Update the quantity in the database
-                cardBody.appendChild(quantityElement);
+                const countElement = document.createElement('p');
+                countElement.className = 'card-text';
+                countElement.textContent = `count: ${item.count}`;
+                cardBody.appendChild(countElement);
 
                 // Checkbox to select the item
                 const checkbox = document.createElement('input');
@@ -140,14 +172,33 @@
                 const editButton = document.createElement('button');
                 editButton.className = 'btn btn-outline-secondary btn-sm edit-button';
                 editButton.innerHTML = '<i class="fas fa-pencil-alt"></i>';
-                editButton.addEventListener('click', () => {
+                editButton.addEventListener('click', async () => {
                     // Handle the edit action here
-                    const newQuantity = prompt(`Edit quantity for ${title}`, item.quantity);
-                    if (newQuantity && !isNaN(newQuantity)) {
-                        item.quantity = parseInt(newQuantity);
-                        quantityElement.textContent = `Quantity: ${item.quantity}`;
+                    const newcount = prompt(`Edit count for ${title}`, item.count);
+                    if (newcount && !isNaN(newcount)) {
+                        console.log('New count:', newcount);
+                        item.count = parseInt(newcount);
+                        countElement.textContent = `count: ${item.count}`;
+                        //update item
+                        const response = await fetch('/updateItem', {
+                            method: 'PATCH',
+                            headers: {
+                                'Content-Type': 'application/json'
+                            },
+                            body: JSON.stringify({
+                                title: title,
+                                count: newcount
+                            })
+                        });
 
-
+                        await response.json();
+                        if(response.status === 200) {
+                            // success
+                            alert('Item updated successfully!');
+                        } else {
+                            // error
+                            alert('Error updating item!');
+                        }
                         // You can also update the JSON/database here if required
                     }
                 });
