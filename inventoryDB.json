@@ -1,0 +1,106 @@
+{
+    "Sonne Zero": {
+        "id": 10514922,
+        "title": "Sonne Zero",
+        "price": 0,
+        "likes": 0,
+        "badges": [
+            "egg_free",
+            "peanut_free",
+            "primal",
+            "sulfite_free",
+            "nut_free",
+            "vegan",
+            "no_preservatives",
+            "soy_free",
+            "msg_free",
+            "no_artificial_colors",
+            "sugar_free",
+            "no_artificial_flavors",
+            "vegetarian",
+            "no_artificial_ingredients",
+            "no_additives",
+            "corn_free",
+            "dairy_free",
+            "paleo",
+            "gluten_free"
+        ],
+        "importantBadges": [
+            "gluten_free"
+        ],
+        "nutrition": {
+            "nutrients": [
+                {
+                    "name": "Carbohydrates",
+                    "amount": 0.1,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0.03
+                },
+                {
+                    "name": "Fat",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Saturated Fat",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Protein",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Sugar",
+                    "amount": 0.1,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0.11
+                },
+                {
+                    "name": "Net Carbohydrates",
+                    "amount": 0.1,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0.04
+                }
+            ],
+            "caloricBreakdown": {
+                "percentProtein": 0,
+                "percentFat": 0,
+                "percentCarbs": 100
+            },
+            "calories": null,
+            "fat": "0g",
+            "protein": "0g",
+            "carbs": "0.10000000149011612g"
+        },
+        "servings": {
+            "number": 1,
+            "size": null,
+            "unit": null
+        },
+        "spoonacularScore": 100,
+        "breadcrumbs": [
+            "non food item"
+        ],
+        "aisle": null,
+        "description": null,
+        "image": "https://spoonacular.com/productImages/10514922-312x231.jpg",
+        "imageType": "jpg",
+        "images": [
+            "https://spoonacular.com/productImages/10514922-90x90.jpg",
+            "https://spoonacular.com/productImages/10514922-312x231.jpg",
+            "https://spoonacular.com/productImages/10514922-636x393.jpg"
+        ],
+        "generatedText": "Sonne Zero: This product is an excellent match if you like to buy products that are free of preservatives, vegetarian, vegan, and gluten-free. We recommend choosing products with short ingredient lists, as these tend to be less processed. This product has no ingredients.",
+        "upc": "4002846004255",
+        "brand": null,
+        "ingredients": [],
+        "ingredientCount": 0,
+        "ingredientList": "",
+        "count": 1
+    }
+}

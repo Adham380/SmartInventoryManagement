@@ -10,7 +10,7 @@ const http = require("http");
 const https = require("https");
 const axios = require("axios");
 const querystring = require("querystring");
-
+const fs = require("fs");
 var app = express();
 
 // view engine setup
@@ -28,11 +28,53 @@ app.use('/users', usersRouter);
 app.use('/hello', function(req, res, next) {
     res.send('Ich mache was! :P');
 })
+app.get('/inventory', function(req, res, next) {
+    res.render('inventory');
+});
+
+app.get('/getInventory', function(req, res, next) {
+    const inventory = loadData();
+    res.json(inventory);
+});
+
+const dataFilePath = path.resolve(__dirname, "inventoryDB.json");
+
+
+// Function to load data from the JSON file
+// Function to load data from the JSON file
+function loadData() {
+    try {
+        // Check if the file exists
+        if (fs.existsSync(dataFilePath)) {
+            const data = fs.readFileSync(dataFilePath, 'utf8');
+            return JSON.parse(data);
+        } else {
+            // If file doesn't exist, return an empty object
+            return {};
+        }
+    } catch (err) {
+        console.error('Error loading data:', err);
+        // Return an empty object in case of an error
+        return {};
+    }
+}
+
+// Function to save data to the JSON file
+function saveData(data) {
+    try {
+        fs.writeFileSync(dataFilePath, JSON.stringify(data, null, 4), 'utf8');
+    } catch (err) {
+        console.error('Error saving data:', err);
+    }
+}
+let inventory = loadData();
+// let items = ["oil", "salt", "pepper", "chicken", "tomato", "onion", "garlic", "cheese", "sriracha", "basmati rice"];
 
 //get from upcitemdb api free version
 async function getBarcodeInfo(barcode) {
-   const url = "https://api.upcitemdb.com/prod/trial/lookup?upc=" + barcode;
-   const options = {
+   // const url = "https://api.upcitemdb.com/prod/trial/lookup?upc=" + barcode;
+    const url = "https://api.spoonacular.com/food/products/upc/" + barcode + "?apiKey=6e1e5b3c0e34460b8b4ac864c2b36ed7";
+    const options = {
          method: "GET",
             headers: {
                     "Content-Type": "application/json"
@@ -50,7 +92,6 @@ async function getBarcodeInfo(barcode) {
         console.log(error);
     }
 }
-let items = ["oil", "salt", "pepper", "chicken", "tomato", "onion", "garlic", "cheese", "sriracha", "basmati rice"];
 //spoonacular api call. Get ingredients from text
 async function extractIngredientList(text) {
     const ingredientText = items.join("\n");
@@ -91,7 +132,6 @@ async function getRecipe(ingredients, number, diet) {
     try {
         const response = await axios.get(url, options);
         const data = await response.data;
-        console.log(data);
         return data;
     }
     catch (error) {
@@ -104,7 +144,8 @@ app.post('/getRecipe', async function (req, res, next) {
     // const number = req.body.number;
     // const diet = req.body.diet;
     //get all items.title from items array
-    const ingredients = items.map(item => item.title)
+    // const ingredients = items.map(item => item.title)
+    const ingredients = loadData().map(item => item.title);
     // const ingredients = "chicken, tomato, onion, garlic, salt, pepper, oil"
     // console.log(ingredients);
     // console.log(text)
@@ -116,16 +157,64 @@ app.post('/getRecipe', async function (req, res, next) {
 })
 //receives a post request from the client and adds the new item to the database by using the barcode to identify the item
 app.post('/addNewItem', async function (req, res, next) {
-    // console.log(req.body);
     const barcode = req.body.barcode;
-    // console.log(barcode);
-    // console.log(req.body)
-    //call barcode api to get item information
     const itemInfo = await getBarcodeInfo(barcode);
-    items.push(itemInfo.items[0])
-    //add item to database
-    // console.log(itemInfo);
+
+    let inventory = loadData(); // Load existing data
+
+    if (itemInfo.status === "failure") {
+        console.log("Item not found");
+        res.status(400).send('Item not found');
+    } else {
+        const title = itemInfo.title; // Adjusted according to your specification
+
+        // Check if the item already exists
+        if (inventory[title]) {
+            inventory[title].count += 1; // Increment the count
+        } else {
+            inventory[title] = { ...itemInfo, count: 1 }; // Add new item with count 1
+        }
+
+        saveData(inventory); // Save the updated data
+        res.send('Item added to database');
+    }
+});
+
+app.post('/addNewItemManual', async function (req, res, next) {
+    const title = req.body.title;
+    const barcode = req.body.barcode;
+    const inventory = loadData();
+
+    // Check if the item already exists
+    if (inventory[title]) {
+        inventory[title].count += 1; // Increment the count
+    } else {
+        inventory[title] = { title: title, barcode: barcode, count: 1 }; // Add new item with count 1
+    }
+
+    saveData(inventory); // Save the updated data
     res.send('Item added to database');
+})
+//remove item from database
+app.delete('/removeItem', async function (req, res, next) {
+    const title = req.body.title;
+    const inventory = loadData();
+
+    console.log(title)
+    console.log(inventory[title])
+    console.log(inventory[title].count)
+    // Check if the item already exists
+    if (inventory[title]) {
+        inventory[title].count -= 1; // Increment the count
+        if (inventory[title].count === 0) {
+            delete inventory[title];
+        }
+    } else {
+        res.status(400).send('Item not found');
+    }
+
+    saveData(inventory); // Save the updated data
+    res.send('Item removed from database');
 })
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
