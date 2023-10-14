@@ -56,7 +56,24 @@
     <div class="row mt-4" id="recipesSection">
         <!-- Recipes will be populated here -->
     </div>
-
+    <div class="modal fade" id="recipeModal" tabindex="-1" aria-labelledby="recipeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="recipeModalLabel">Recipe Details</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="recipeModalBody">
+                    <!-- Recipe details will be populated here -->
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
@@ -268,11 +285,18 @@
                     const card = document.createElement('div');
                     card.className = 'card mt-2';
 
+                    // Attach the recipe ID to the card as a data attribute for easy retrieval
+                    card.dataset.recipeId = recipe.id;
+
                     // Image thumbnail
                     const recipeImage = document.createElement('img');
                     recipeImage.className = 'card-img-top';
                     recipeImage.src = recipe.image;
                     recipeImage.alt = recipe.title;
+                    recipeImage.style.cursor = 'pointer';
+                    recipeImage.addEventListener('click', () => {
+                        displayRecipeModal(card);
+                    });
                     card.appendChild(recipeImage);
 
                     const cardBody = document.createElement('div');
@@ -300,6 +324,53 @@
         }
     });
 
+   async function displayRecipeModal(recipeCard) {
+        const modalBody = document.getElementById('recipeModalBody');
+        modalBody.innerHTML = ''; // Clear previous recipe details
+
+        // Retrieve the recipe ID from the clicked card's data attribute
+        const recipeId = recipeCard.dataset.recipeId;
+
+        // Fetch the full recipe details using the recipe ID and display them in the modal
+        fetch(`/getRecipeDetails/${recipeId}`)
+            .then(response => response.json())
+            .then(recipeDetails => {
+                const titleElement = document.createElement('h3');
+                titleElement.textContent = recipeDetails.title;
+                modalBody.appendChild(titleElement);
+
+                const recipeImage = document.createElement('img');
+                recipeImage.src = recipeDetails.image;
+                recipeImage.alt = recipeDetails.title;
+                recipeImage.style.display = 'block';
+                recipeImage.style.margin = 'auto';
+                recipeImage.style.marginBottom = '2vh';
+                recipeImage.style.marginTop = '2vh';
+                recipeImage.className = 'img-fluid';
+                modalBody.appendChild(recipeImage);
+
+                const recipeSourceButton = document.createElement('a');
+                recipeSourceButton.href = recipeDetails.sourceUrl;
+                //open in new tab
+                recipeSourceButton.target = '_blank';
+                recipeSourceButton.textContent = 'View Recipe Source';
+                recipeSourceButton.className = 'btn btn-primary';
+
+                modalBody.appendChild(recipeSourceButton);
+                // Display more recipe details as needed
+                // For instance, let's say the recipeDetails contains an 'instructions' property:
+                const instructionsElement = document.createElement('p');
+                instructionsElement.innerHTML = recipeDetails.instructions;
+                modalBody.appendChild(instructionsElement);
+
+                // ... add other details as required ...
+                $('#recipeModal').modal('show');
+
+            })
+            .catch(error => {
+                console.error('Error fetching recipe details:', error);
+            });
+    }
 
 
     //every few seconds, update the inventory

@@ -232,7 +232,6 @@ app.patch('/updateItem', async function (req, res, next) {
     saveData(inventory); // Save the updated data
     res.send('Item updated in database');
 })
-
 //remove item from database
 app.delete('/removeItem', async function (req, res, next) {
     const title = req.body.title;
@@ -253,6 +252,26 @@ app.delete('/removeItem', async function (req, res, next) {
 
     saveData(inventory); // Save the updated data
     res.send('Item removed from database');
+})
+app.get('/getRecipeDetails/:recipeId', async function (req, res, next) {
+const recipeId = req.params.recipeId;
+    const url = "https://api.spoonacular.com/recipes/" + recipeId + "/information?apiKey=6e1e5b3c0e34460b8b4ac864c2b36ed7";
+    const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+
+        }
+    }
+    try {
+        const response = await axios.get(url, options);
+        const data = await response.data;
+        res.send(data);
+    }
+    catch (error) {
+        console.log(error);
+        res.status(400).send('Recipe not found');
+    }
 })
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
