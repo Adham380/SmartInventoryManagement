@@ -101,199 +101,7 @@
         "ingredients": [],
         "ingredientCount": 0,
         "ingredientList": "",
-        "count": 4
-    },
-    "Maximal G  sugarfree": {
-        "id": 9246272,
-        "title": "Maximal G  sugarfree",
-        "price": 0,
-        "likes": 0,
-        "badges": [
-            "egg_free",
-            "peanut_free",
-            "sulfite_free",
-            "nut_free",
-            "no_preservatives",
-            "soy_free",
-            "msg_free",
-            "no_artificial_colors",
-            "sugar_free",
-            "no_artificial_flavors",
-            "no_artificial_ingredients",
-            "no_additives",
-            "corn_free",
-            "dairy_free",
-            "gluten_free"
-        ],
-        "importantBadges": [
-            "gluten_free"
-        ],
-        "nutrition": {
-            "nutrients": [
-                {
-                    "name": "Carbohydrates",
-                    "amount": 0,
-                    "unit": "g",
-                    "percentOfDailyNeeds": 0
-                },
-                {
-                    "name": "Fat",
-                    "amount": 0,
-                    "unit": "g",
-                    "percentOfDailyNeeds": 0
-                },
-                {
-                    "name": "Saturated Fat",
-                    "amount": 0,
-                    "unit": "g",
-                    "percentOfDailyNeeds": 0
-                },
-                {
-                    "name": "Protein",
-                    "amount": 0,
-                    "unit": "g",
-                    "percentOfDailyNeeds": 0
-                },
-                {
-                    "name": "Sodium",
-                    "amount": 0.2,
-                    "unit": "mg",
-                    "percentOfDailyNeeds": 0.01
-                },
-                {
-                    "name": "Sugar",
-                    "amount": 0,
-                    "unit": "g",
-                    "percentOfDailyNeeds": 0
-                },
-                {
-                    "name": "Net Carbohydrates",
-                    "amount": 0,
-                    "unit": "g",
-                    "percentOfDailyNeeds": 0
-                }
-            ],
-            "caloricBreakdown": {
-                "percentProtein": 0,
-                "percentFat": 0,
-                "percentCarbs": 0
-            },
-            "calories": null,
-            "fat": "0g",
-            "protein": "0g",
-            "carbs": "0g"
-        },
-        "servings": {
-            "number": 1,
-            "size": null,
-            "unit": null
-        },
-        "spoonacularScore": 17.5,
-        "breadcrumbs": [
-            "non food item"
-        ],
-        "aisle": null,
-        "description": null,
-        "image": "https://spoonacular.com/productImages/9246272-312x231.jpg",
-        "imageType": "jpg",
-        "images": [
-            "https://spoonacular.com/productImages/9246272-90x90.jpg",
-            "https://spoonacular.com/productImages/9246272-312x231.jpg",
-            "https://spoonacular.com/productImages/9246272-636x393.jpg"
-        ],
-        "generatedText": "Thinking about having some non food item today? Maximal G sugarfree is one option; let's take a closer look. We recommend choosing products with short ingredient lists, as these tend to be less processed. This product has 17 ingredients. According to our research, this product contains no ingredients that you should avoid.",
-        "upc": "4388844254831",
-        "brand": null,
-        "ingredients": [
-            {
-                "name": "aroma",
-                "safety_level": null,
-                "description": null
-            },
-            {
-                "name": "farbstoff",
-                "safety_level": null,
-                "description": null
-            },
-            {
-                "name": "032%",
-                "safety_level": null,
-                "description": null
-            },
-            {
-                "name": "trinatriumcitrat",
-                "safety_level": null,
-                "description": null
-            },
-            {
-                "name": "pantothensäure",
-                "safety_level": null,
-                "description": null
-            },
-            {
-                "name": "taurin 0",
-                "safety_level": null,
-                "description": null
-            },
-            {
-                "name": "koffein 0",
-                "safety_level": null,
-                "description": null
-            },
-            {
-                "name": "niacin",
-                "safety_level": null,
-                "description": null
-            },
-            {
-                "name": "vitamin b6",
-                "safety_level": null,
-                "description": null
-            },
-            {
-                "name": "süßungsmittel",
-                "safety_level": null,
-                "description": null
-            },
-            {
-                "name": "säuerungsmittel citronensäure",
-                "safety_level": null,
-                "description": null
-            },
-            {
-                "name": "säureregulator",
-                "safety_level": null,
-                "description": null
-            },
-            {
-                "name": "kohlensäure",
-                "safety_level": null,
-                "description": null
-            },
-            {
-                "name": "ammoniak-zuckerkulör",
-                "safety_level": null,
-                "description": null
-            },
-            {
-                "name": "wasser",
-                "safety_level": null,
-                "description": null
-            },
-            {
-                "name": "acesulfam k",
-                "safety_level": "controversial",
-                "description": null
-            },
-            {
-                "name": "aspartam",
-                "safety_level": "controversial",
-                "description": null
-            }
-        ],
-        "ingredientCount": 17,
-        "ingredientList": "Wasser, Säuerungsmittel Citronensäure, Kohlensäure, Taurin 0,4%, Säureregulator (Trinatriumcitrat), Aroma, Süßungsmittel (Acesulfam K, Aspartam), Koffein 0,032%, Farbstoff (Ammoniak-Zuckerkulör), Niacin, Pantothensäure, Vitamin B6",
-        "count": 1
+        "count": "3"
     },
     "Chiquita Juicy Red Apple & Grape Bites, 2.2 oz": {
         "id": 40484,
@@ -578,6 +386,299 @@
         ],
         "aisle": "Baking",
         "image": "flour.png",
+        "meta": [],
+        "count": 1
+    },
+    "Butter": {
+        "id": 1001,
+        "original": "Butter",
+        "originalName": "Butter",
+        "name": "butter",
+        "amount": 2,
+        "unit": "servings",
+        "unitShort": "servings",
+        "unitLong": "servings",
+        "possibleUnits": [
+            "pat",
+            "knob",
+            "g",
+            "stick",
+            "oz",
+            "teaspoon",
+            "cup",
+            "serving",
+            "tablespoon"
+        ],
+        "estimatedCost": {
+            "value": 8.57,
+            "unit": "US Cents"
+        },
+        "consistency": "solid",
+        "shoppingListUnits": [
+            "ounces",
+            "pounds"
+        ],
+        "aisle": "Milk, Eggs, Other Dairy",
+        "image": "butter-sliced.jpg",
+        "meta": [],
+        "count": 1
+    },
+    "Apple juice": {
+        "id": 9016,
+        "original": "Apple juice",
+        "originalName": "Apple juice",
+        "name": "apple juice",
+        "amount": 2,
+        "unit": "servings",
+        "unitShort": "servings",
+        "unitLong": "servings",
+        "possibleUnits": [
+            "g",
+            "drink box",
+            "oz",
+            "teaspoon",
+            "bottle NFS",
+            "fluid ounce",
+            "cup",
+            "serving",
+            "tablespoon"
+        ],
+        "estimatedCost": {
+            "value": 33.9,
+            "unit": "US Cents"
+        },
+        "consistency": "liquid",
+        "shoppingListUnits": [
+            "ounces",
+            "pints",
+            "quarts",
+            "gallons"
+        ],
+        "aisle": "Beverages",
+        "image": "apple-juice.jpg",
+        "meta": [],
+        "count": 1
+    },
+    "Maximal G  sugarfree": {
+        "id": 9246272,
+        "title": "Maximal G  sugarfree",
+        "price": 0,
+        "likes": 0,
+        "badges": [
+            "egg_free",
+            "peanut_free",
+            "sulfite_free",
+            "nut_free",
+            "no_preservatives",
+            "soy_free",
+            "msg_free",
+            "no_artificial_colors",
+            "sugar_free",
+            "no_artificial_flavors",
+            "no_artificial_ingredients",
+            "no_additives",
+            "corn_free",
+            "dairy_free",
+            "gluten_free"
+        ],
+        "importantBadges": [
+            "gluten_free"
+        ],
+        "nutrition": {
+            "nutrients": [
+                {
+                    "name": "Carbohydrates",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Fat",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Saturated Fat",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Protein",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Sodium",
+                    "amount": 0.2,
+                    "unit": "mg",
+                    "percentOfDailyNeeds": 0.01
+                },
+                {
+                    "name": "Sugar",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Net Carbohydrates",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                }
+            ],
+            "caloricBreakdown": {
+                "percentProtein": 0,
+                "percentFat": 0,
+                "percentCarbs": 0
+            },
+            "calories": null,
+            "fat": "0g",
+            "protein": "0g",
+            "carbs": "0g"
+        },
+        "servings": {
+            "number": 1,
+            "size": null,
+            "unit": null
+        },
+        "spoonacularScore": 17.5,
+        "breadcrumbs": [
+            "non food item"
+        ],
+        "aisle": null,
+        "description": null,
+        "image": "https://spoonacular.com/productImages/9246272-312x231.jpg",
+        "imageType": "jpg",
+        "images": [
+            "https://spoonacular.com/productImages/9246272-90x90.jpg",
+            "https://spoonacular.com/productImages/9246272-312x231.jpg",
+            "https://spoonacular.com/productImages/9246272-636x393.jpg"
+        ],
+        "generatedText": "Thinking about having some non food item today? Maximal G sugarfree is one option; let's take a closer look. We recommend choosing products with short ingredient lists, as these tend to be less processed. This product has 17 ingredients. According to our research, this product contains no ingredients that you should avoid.",
+        "upc": "4388844254831",
+        "brand": null,
+        "ingredients": [
+            {
+                "name": "aroma",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "farbstoff",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "032%",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "trinatriumcitrat",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "pantothensäure",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "taurin 0",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "koffein 0",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "niacin",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "vitamin b6",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "süßungsmittel",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "säuerungsmittel citronensäure",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "säureregulator",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "kohlensäure",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "ammoniak-zuckerkulör",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "wasser",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "acesulfam k",
+                "safety_level": "controversial",
+                "description": null
+            },
+            {
+                "name": "aspartam",
+                "safety_level": "controversial",
+                "description": null
+            }
+        ],
+        "ingredientCount": 17,
+        "ingredientList": "Wasser, Säuerungsmittel Citronensäure, Kohlensäure, Taurin 0,4%, Säureregulator (Trinatriumcitrat), Aroma, Süßungsmittel (Acesulfam K, Aspartam), Koffein 0,032%, Farbstoff (Ammoniak-Zuckerkulör), Niacin, Pantothensäure, Vitamin B6",
+        "count": 18
+    },
+    "Spaghetti": {
+        "id": 11420420,
+        "original": "Spaghetti",
+        "originalName": "Spaghetti",
+        "name": "spaghetti",
+        "amount": 2,
+        "unit": "servings",
+        "unitShort": "servings",
+        "unitLong": "servings",
+        "possibleUnits": [
+            "package",
+            "g",
+            "bag",
+            "box",
+            "oz",
+            "serving"
+        ],
+        "estimatedCost": {
+            "value": 24,
+            "unit": "US Cents"
+        },
+        "consistency": "solid",
+        "shoppingListUnits": [
+            "ounces",
+            "pounds"
+        ],
+        "aisle": "Pasta and Rice",
+        "image": "spaghetti.jpg",
         "meta": [],
         "count": 1
     }

@@ -32,10 +32,33 @@
         <button type="submit" class="btn btn-primary">Add Item</button>
     </form>
 
+    <div class="d-flex mt-4 justify-content-between align-items-center">
+        <input type="text" id="searchBar" class="form-control w-50" placeholder="Search items..." onkeyup="filterItems()">
+    </div>
 
     <!-- Inventory Grid -->
     <div class="row mt-4" id="inventoryGrid">
         <!-- Inventory items will be populated here -->
+    </div>
+    <div class="mt-4">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <label>Items per page:</label>
+                <select id="itemsPerPage" onchange="updateItemsPerPage()">
+                    <option value="4">4</option>
+                    <option value="8">8</option>
+                    <option value="12">12</option>
+                    <option value="16">16</option>
+                </select>
+            </div>
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item"><a class="page-link" href="javascript:previousPage()">Previous</a></li>
+                    <!-- Page numbers can be generated here -->
+                    <li class="page-item"><a class="page-link" href="javascript:nextPage()">Next</a></li>
+                </ul>
+            </nav>
+        </div>
     </div>
 
     <!-- Recipe Finder Form -->
@@ -43,13 +66,16 @@
         <h3>Find Recipe</h3>
         <div class="form-group">
             <label for="diet">Diet:</label>
-            <select class="form-control" id="diet" name="diet">
+            <select style="margin-bottom: 0.2vh" class="form-control" id="diet" name="diet">
                 <option value="">Any</option>
                 <option value="vegan">Vegan</option>
                 <option value="vegetarian">Vegetarian</option>
                 <option value="glutenFree">Gluten Free</option>
                 <!-- Add more diet options as needed -->
             </select>
+<!--            number of recipes-->
+        <label for="number">Number of Recipes:</label>
+        <input type="number" id="number" name="number" min="1" max="10" value="5">
         </div>
         <button type="submit" class="btn btn-primary">Find Recipe</button>
     </form>
@@ -82,6 +108,66 @@
 
 <script>
 
+    function filterItems() {
+        // Declare variables
+        let input, filter, inventoryGrid, inventoryItems, inventoryItem, i, txtValue;
+        input = document.getElementById('searchBar');
+        filter = input.value.toUpperCase();
+        inventoryGrid = document.getElementById("inventoryGrid");
+        inventoryItems = inventoryGrid.getElementsByClassName('col-md-3');
+
+        //use regex to partially match the title
+        const regex = new RegExp(filter, 'i');
+        // Loop through all list items, and hide those who don't match the search query
+        for (i = 0; i < inventoryItems.length; i++) {
+            inventoryItem = inventoryItems[i];
+            txtValue = inventoryItem.textContent || inventoryItem.innerText;
+            if (txtValue.toUpperCase().match(regex)) {
+                inventoryItem.style.display = "";
+            } else {
+                inventoryItem.style.display = "none";
+            }
+        }
+    }
+
+    let currentPage = 1;
+    let itemsPerPage = 8;
+
+    function updateItemsPerPage() {
+        itemsPerPage = document.getElementById('itemsPerPage').value;
+        renderItems();
+    }
+
+    function nextPage() {
+        if(currentPage === Math.ceil(document.querySelectorAll('.col-md-3').length / itemsPerPage)) {
+            return;
+        }
+        currentPage++;
+        renderItems();
+    }
+
+    function previousPage() {
+        if(currentPage === 1) {
+            return;
+        }
+        currentPage--;
+        renderItems();
+    }
+
+    function renderItems() {
+        const items = document.querySelectorAll('.col-md-3');
+        const startIndex = (currentPage - 1) * itemsPerPage;
+        const endIndex = startIndex + itemsPerPage;
+
+        items.forEach((item, index) => {
+            if (index >= startIndex && index < endIndex) {
+                item.style.display = 'block';
+            } else {
+                item.style.display = 'none';
+            }
+        });
+    }
+    // ... Additional logic for rendering items based on pagination
 
     const form = document.getElementById('addItemForm');
     const barcodeInput = document.getElementById('barcode');
@@ -129,6 +215,16 @@
                 },
                 body: JSON.stringify(payload)
             });
+            console.log(response.status);
+            if(response.status === 200) {
+                //clear input field
+                // success
+                await fetchAndDisplayInventory()
+            } else {
+                // error
+                alert('Error adding item!');
+            }
+            document.getElementById('inputField').value = '';
 
             // Rest of the submission logic remains the same
 
@@ -144,10 +240,28 @@
             const inventory = await response.json();
 
             const inventoryGrid = document.getElementById('inventoryGrid');
-            inventoryGrid.innerHTML = ''; // Clear previous items
+            // inventoryGrid.innerHTML = ''; // Clear previous items
 
             for (let title in inventory) {
                 const item = inventory[title];
+
+                //check if card already exists and count is equal to item.count card-title card-text in card-body
+                //get all card bodies and check
+                const cardBodies = document.querySelectorAll('.card-body');
+                let cardExists = false;
+                cardBodies.forEach(cardBody => {
+                    if(cardBody.querySelector('.card-title').textContent === title && cardBody.querySelector('.card-text').textContent == `count: ${item.count}`){
+                        cardExists = true;
+                        console.log('card exists');
+                    } else if (cardBody.querySelector('.card-title').textContent === title && cardBody.querySelector('.card-text').textContent != `count: ${item.count}`){
+                        cardExists = true;
+                        cardBody.querySelector('.card-text').textContent = `count: ${item.count}`;
+                        console.log('card count updated');
+                    }
+                });
+                if(cardExists){
+                    continue;
+                }
 
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'col-md-3';
@@ -178,6 +292,8 @@
                 countElement.className = 'card-text';
                 countElement.textContent = `count: ${item.count}`;
                 cardBody.appendChild(countElement);
+
+
 
                 // Checkbox to select the item
                 const checkbox = document.createElement('input');
@@ -228,7 +344,7 @@
                 card.appendChild(cardBody);
                 itemDiv.appendChild(card);
                 inventoryGrid.appendChild(itemDiv);
-
+                renderItems();
             }
         } catch (error) {
             console.error('Error fetching inventory:', error);
@@ -255,8 +371,15 @@
         e.preventDefault();
 
         const selectedItems = getSelectedItems();
+        const number = document.getElementById('number').value;
         const dietValue = dietInput.value;
-
+        if(selectedItems.length === 0) {
+            //select all items
+            const checkboxes = document.querySelectorAll('.itemCheckbox');
+            checkboxes.forEach(checkbox => {
+                selectedItems.push(checkbox.value);
+            });
+        }
         try {
             const response = await fetch('/getRecipe', {
                 method: 'POST',
@@ -265,6 +388,7 @@
                 },
                 body: JSON.stringify({
                     selectedItems: selectedItems,
+                    number: number,
                     diet: dietValue
                 })
             });

@@ -17,3 +17,17 @@
 .card {
   position: relative;  /* Needed for absolute positioning of child elements */
 }
+#inventoryGrid .col {
+  display: flex;  /* This is to make sure that the cards stretch to full height */
+}
+
+#inventoryGrid .card {
+  width: 100%;  /* Ensures that the card takes the full width of its parent column */
+  height: 100%; /* Ensures that the card takes the full height of its parent column */
+}
+.mt-4{
+  row-gap: 2vh;
+}
+.card-title{
+  height: 6vh;
+}

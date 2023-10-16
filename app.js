@@ -147,10 +147,10 @@ app.post('/getRecipe', async function (req, res, next) {
     //                 })
     const ingredients = req.body.selectedItems;
     const diet = req.body.diet;
-    console.log(ingredients);
+    const number = req.body.number;
     const ingredientList = await extractIngredientList(ingredients);
     const ingredientListNames = ingredientList.map(ingredient => ingredient.name);
-    const recipe = await getRecipe(ingredientListNames, 1, diet);
+    const recipe = await getRecipe(ingredientListNames, number, diet);
     console.log(recipe);
     res.send(recipe);
 })
@@ -166,9 +166,12 @@ app.post('/addNewItem', async function (req, res, next) {
         res.status(400).send('Item not found');
     } else {
         const title = itemInfo.title; // Adjusted according to your specification
+        console.log(title);
+        console.log(inventory[title]);
 
         // Check if the item already exists
         if (inventory[title]) {
+            console.log("Item with barcode " + barcode + " already exists");
             inventory[title].count += 1; // Increment the count
         } else {
             inventory[title] = { ...itemInfo, count: 1 }; // Add new item with count 1
