@@ -22,7 +22,7 @@
             <label for="inputMethod">Enter Item By:</label>
             <select class="form-control" id="inputMethod" name="inputMethod" onchange="updateInputFields()">
                 <option value="barcode">Barcode</option>
-                <option value="productName">Product Name</option>
+                <option value="productName" selected>Product Name</option>
                 <!-- Additional methods can be added here in the future -->
             </select>
         </div>
@@ -34,6 +34,20 @@
 
     <div class="d-flex mt-4 justify-content-between align-items-center">
         <input type="text" id="searchBar" class="form-control w-50" placeholder="Search items..." onkeyup="filterItems()">
+<!--        sort-->
+        <div>
+            <label for="sort">Sort by:</label>
+            <select id="sort" onchange="sortItems()">
+                <option value="dateAdded">Date Added</option>
+                <option value="name">Name</option>
+                <option value="count">Count</option>
+                <option value="aisle">Aisle</option>
+            </select>
+        </div>
+        <div>
+            <button class="btn btn-primary" onclick="selectAll()">Select All</button>
+            <button class="btn btn-primary" onclick="deselectAll()">Deselect All</button>
+        </div>
     </div>
 
     <!-- Inventory Grid -->
@@ -46,15 +60,21 @@
                 <label>Items per page:</label>
                 <select id="itemsPerPage" onchange="updateItemsPerPage()">
                     <option value="4">4</option>
-                    <option value="8">8</option>
+                    <option value="8" selected>8</option>
                     <option value="12">12</option>
                     <option value="16">16</option>
                 </select>
             </div>
             <nav>
                 <ul class="pagination">
+                    <div style="display: flex; flex-direction: row; align-items: center; gap: 0.2vw; margin-right: 1vw">
+                    <input style="width: 2vw" type="number" id="currentPage" value="1" onchange="changePage()">
+                    <div>of</div>
+                    <div id="totalPages"></div>
+                    </div>
                     <li class="page-item"><a class="page-link" href="javascript:previousPage()">Previous</a></li>
                     <!-- Page numbers can be generated here -->
+                    <div id="pageNumbers"></div>
                     <li class="page-item"><a class="page-link" href="javascript:nextPage()">Next</a></li>
                 </ul>
             </nav>
@@ -107,7 +127,64 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
-
+    function sortItems(){
+        const inventoryGrid = document.getElementById("inventoryGrid");
+        const inventoryItems = inventoryGrid.getElementsByClassName('col-md-3');
+        const sortMethod = document.getElementById('sort').value;
+        //aisle can be gotten from dataset
+        if(sortMethod === 'name'){
+            //sort by name
+            const sortedItems = Array.from(inventoryItems).sort((a, b) => {
+                const aTitle = a.querySelector('.card-title').textContent;
+                const bTitle = b.querySelector('.card-title').textContent;
+                return aTitle.localeCompare(bTitle);
+            });
+            inventoryGrid.innerHTML = '';
+            sortedItems.forEach(item => {
+                inventoryGrid.appendChild(item);
+            });
+        } else if(sortMethod === 'count'){
+            //sort by count
+            const sortedItems = Array.from(inventoryItems).sort((a, b) => {
+                const aCount = parseInt(a.querySelector('.card-text').textContent.split(' ')[1]);
+                const bCount = parseInt(b.querySelector('.card-text').textContent.split(' ')[1]);
+                return aCount - bCount;
+            });
+            inventoryGrid.innerHTML = '';
+            sortedItems.forEach(item => {
+                inventoryGrid.appendChild(item);
+            });
+        } else if(sortMethod === 'aisle'){
+            //sort by aisle
+            console.log('sort by aisle')
+            const sortedItems = Array.from(inventoryItems).sort((a, b) => {
+                console.log(a.dataset.aisle);
+                console.log(b.dataset.aisle);
+                const aAisle = a.dataset.aisle;
+                const bAisle = b.dataset.aisle;
+                return aAisle.localeCompare(bAisle);
+            });
+            inventoryGrid.innerHTML = '';
+            sortedItems.forEach(item => {
+                inventoryGrid.appendChild(item);
+            });
+        } else if (sortMethod === 'dateAdded'){
+        //dateAdded is default
+            fetchAndDisplayInventory(true)
+        }
+    }
+    function selectAll() {
+        const checkboxes = document.querySelectorAll('.itemCheckbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = true;
+        });
+    }
+    function deselectAll() {
+        const checkboxes = document.querySelectorAll('.itemCheckbox');
+        checkboxes.forEach(checkbox => {
+            checkbox.checked = false;
+        });
+    }
     function filterItems() {
         // Declare variables
         let input, filter, inventoryGrid, inventoryItems, inventoryItem, i, txtValue;
@@ -128,11 +205,18 @@
                 inventoryItem.style.display = "none";
             }
         }
+        if(filter === ''){
+            renderItems();
+        }
     }
 
     let currentPage = 1;
     let itemsPerPage = 8;
 
+    function changePage() {
+        currentPage = document.getElementById('currentPage').value;
+        renderItems();
+    }
     function updateItemsPerPage() {
         itemsPerPage = document.getElementById('itemsPerPage').value;
         renderItems();
@@ -166,6 +250,8 @@
                 item.style.display = 'none';
             }
         });
+        document.querySelector('#totalPages').textContent = Math.ceil(items.length / itemsPerPage).toString();
+
     }
     // ... Additional logic for rendering items based on pagination
 
@@ -234,10 +320,11 @@
     });
 
 
-    async function fetchAndDisplayInventory() {
+    async function fetchAndDisplayInventory(refreshBoolean) {
         try {
             const response = await fetch('/getInventory');
             const inventory = await response.json();
+            refreshBoolean = refreshBoolean || false;
 
             const inventoryGrid = document.getElementById('inventoryGrid');
             // inventoryGrid.innerHTML = ''; // Clear previous items
@@ -259,13 +346,18 @@
                         console.log('card count updated');
                     }
                 });
-                if(cardExists){
+                console.log(refreshBoolean);
+                if(cardExists && !refreshBoolean){
                     continue;
+                }
+                if(cardExists && refreshBoolean){
+                    inventoryGrid.innerHTML = '';
                 }
 
                 const itemDiv = document.createElement('div');
                 itemDiv.className = 'col-md-3';
-
+                //add aisle as dataset
+                itemDiv.dataset.aisle = item.aisle;
                 const card = document.createElement('div');
                 card.className = 'card mt-2';
 
@@ -454,46 +546,60 @@
 
         // Retrieve the recipe ID from the clicked card's data attribute
         const recipeId = recipeCard.dataset.recipeId;
+        let recipeDetails = []
+        //check if recipe is saved locally
+       if(localStorage.getItem(recipeId)){
+           recipeDetails = JSON.parse(localStorage.getItem(recipeId));
+       } else {
+           // Fetch the full recipe details using the recipe ID and display them in the modal
+           const response = await fetch(`/getRecipeDetails/${recipeId}`);
+           recipeDetails = await response.json();
+           if (response.status === 200) {
+               // success
+               // Save the recipe details in local storage
+               localStorage.setItem(recipeId, JSON.stringify(recipeDetails));
+           } else {
+               // error
+               alert('Error finding recipe details!');
+               return;
+           }
+       }
+           // success
 
-        // Fetch the full recipe details using the recipe ID and display them in the modal
-        fetch(`/getRecipeDetails/${recipeId}`)
-            .then(response => response.json())
-            .then(recipeDetails => {
-                const titleElement = document.createElement('h3');
-                titleElement.textContent = recipeDetails.title;
-                modalBody.appendChild(titleElement);
+           const titleElement = document.createElement('h3');
+           titleElement.textContent = recipeDetails.title;
+           modalBody.appendChild(titleElement);
 
-                const recipeImage = document.createElement('img');
-                recipeImage.src = recipeDetails.image;
-                recipeImage.alt = recipeDetails.title;
-                recipeImage.style.display = 'block';
-                recipeImage.style.margin = 'auto';
-                recipeImage.style.marginBottom = '2vh';
-                recipeImage.style.marginTop = '2vh';
-                recipeImage.className = 'img-fluid';
-                modalBody.appendChild(recipeImage);
+           const recipeImage = document.createElement('img');
+           recipeImage.src = recipeDetails.image;
+           recipeImage.alt = recipeDetails.title;
+           recipeImage.style.display = 'block';
+           recipeImage.style.margin = 'auto';
+           recipeImage.style.marginBottom = '2vh';
+           recipeImage.style.marginTop = '2vh';
+           recipeImage.className = 'img-fluid';
+           modalBody.appendChild(recipeImage);
 
-                const recipeSourceButton = document.createElement('a');
-                recipeSourceButton.href = recipeDetails.sourceUrl;
-                //open in new tab
-                recipeSourceButton.target = '_blank';
-                recipeSourceButton.textContent = 'View Recipe Source';
-                recipeSourceButton.className = 'btn btn-primary';
+           const recipeSourceButton = document.createElement('a');
+           recipeSourceButton.href = recipeDetails.sourceUrl;
+           //open in new tab
+           recipeSourceButton.target = '_blank';
+           recipeSourceButton.textContent = 'View Recipe Source';
+           recipeSourceButton.className = 'btn btn-primary';
 
-                modalBody.appendChild(recipeSourceButton);
-                // Display more recipe details as needed
-                // For instance, let's say the recipeDetails contains an 'instructions' property:
-                const instructionsElement = document.createElement('p');
-                instructionsElement.innerHTML = recipeDetails.instructions;
-                modalBody.appendChild(instructionsElement);
+           modalBody.appendChild(recipeSourceButton);
+           // Display more recipe details as needed
+           // For instance, let's say the recipeDetails contains an 'instructions' property:
+           const instructionsElement = document.createElement('p');
+           instructionsElement.innerHTML = recipeDetails.instructions;
+           modalBody.appendChild(instructionsElement);
 
-                // ... add other details as required ...
-                $('#recipeModal').modal('show');
+           // ... add other details as required ...
+           $('#recipeModal').modal('show');
 
-            })
-            .catch(error => {
-                console.error('Error fetching recipe details:', error);
-            });
+
+
+
     }
 
 

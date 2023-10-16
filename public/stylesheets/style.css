@@ -1,8 +1,12 @@
 
 .card-img-top {
   max-width: 100%;
-  max-height: 150px;
+  max-height: 10vh;
+  margin-top: 1.5vh;
   object-fit: contain;
+}
+.card-body{
+  max-height: 15vh;
 }
 .edit-button {
   border: none;
@@ -23,11 +27,18 @@
 
 #inventoryGrid .card {
   width: 100%;  /* Ensures that the card takes the full width of its parent column */
-  height: 100%; /* Ensures that the card takes the full height of its parent column */
+  /*height: 100%; !* Ensures that the card takes the full height of its parent column *!*/
+}
+#inventoryGrid{
+  height: 100%;
 }
 .mt-4{
   row-gap: 2vh;
 }
 .card-title{
   height: 6vh;
+}
+
+#addItemForm{
+  margin-bottom: 5vh;
 }
