@@ -99,11 +99,18 @@
         </div>
         <button type="submit" class="btn btn-primary">Find Recipe</button>
     </form>
+<!--    Show recent recipes with button-->
+    <h3>Recent Recipes</h3>
+    <button class="btn btn-primary" onclick="showRecentRecipes()">Show Recent Recipes</button>
+    <div class="row mt-4" id="recentRecipes">
+        <!-- Recent recipes will be populated here -->
+    </div>
+
     <div class="row mt-4" id="recipesSection">
         <!-- Recipes will be populated here -->
     </div>
     <div class="modal fade" id="recipeModal" tabindex="-1" aria-labelledby="recipeModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+        <div class="modal-dialog modal-lg modalContainer">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="recipeModalLabel">Recipe Details</h5>
@@ -127,6 +134,21 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <script>
+    function showRecentRecipes(){
+        const recentRecipes = document.getElementById('recentRecipes');
+        recentRecipes.innerHTML = '';
+        //recipes are in local storage. Get all values that have a number as key
+        const keys = Object.keys(localStorage);
+        const recentRecipesArray = [];
+        keys.forEach(key => {
+            console.log(key);
+            if(!isNaN(key)){
+                console.log(key);
+                recentRecipesArray.push(JSON.parse(localStorage.getItem(key)));
+            }
+        });
+        recipeCardsBuilder(recentRecipesArray);
+    }
     function sortItems(){
         const inventoryGrid = document.getElementById("inventoryGrid");
         const inventoryItems = inventoryGrid.getElementsByClassName('col-md-3');
@@ -289,7 +311,7 @@
             payload = { barcode: inputValue };
         } else if (inputMethod === 'productName') {
             endpoint = '/addItemByTitle';
-            payload = { title: inputValue };
+            payload = { title: inputValue, language: 'de' };
         }
         // Additional conditions for new methods can be added here in the future
 
@@ -346,7 +368,6 @@
                         console.log('card count updated');
                     }
                 });
-                console.log(refreshBoolean);
                 if(cardExists && !refreshBoolean){
                     continue;
                 }
@@ -458,6 +479,46 @@
 
     const recipeFinderForm = document.getElementById('recipeFinderForm');
     const dietInput = document.getElementById('diet');
+
+    function recipeCardsBuilder(recipes){
+        const recentRecipes = document.getElementById('recentRecipes');
+        recentRecipes.innerHTML = '';
+        recipes.forEach(recipe => {
+            const recipeDiv = document.createElement('div');
+            recipeDiv.className = 'col-md-3';
+
+            const card = document.createElement('div');
+            card.className = 'card mt-2';
+
+            // Attach the recipe ID to the card as a data attribute for easy retrieval
+            card.dataset.recipeId = recipe.id;
+
+            // Image thumbnail
+            const recipeImage = document.createElement('img');
+            recipeImage.className = 'card-img-top';
+            recipeImage.src = recipe.image;
+            recipeImage.alt = recipe.title;
+            recipeImage.style.cursor = 'pointer';
+            recipeImage.addEventListener('click', () => {
+                displayRecipeModal(card);
+            });
+            card.appendChild(recipeImage);
+
+            const cardBody = document.createElement('div');
+            cardBody.className = 'card-body';
+
+            const titleElement = document.createElement('h5');
+            titleElement.className = 'card-title';
+            titleElement.textContent = recipe.title;
+            cardBody.appendChild(titleElement);
+
+            // Just showing the title and image for now. Adjust for other data as needed.
+
+            card.appendChild(cardBody);
+            recipeDiv.appendChild(card);
+            recentRecipes.appendChild(recipeDiv);
+        });
+    }
     //get the selected items and diet and send them to the server to find a recipe with /getRecipe
     recipeFinderForm.addEventListener('submit', async (e) => {
         e.preventDefault();
@@ -540,67 +601,98 @@
         }
     });
 
-   async function displayRecipeModal(recipeCard) {
+    async function displayRecipeModal(card) {
         const modalBody = document.getElementById('recipeModalBody');
         modalBody.innerHTML = ''; // Clear previous recipe details
 
-        // Retrieve the recipe ID from the clicked card's data attribute
-        const recipeId = recipeCard.dataset.recipeId;
+        const recipeId = card.dataset.recipeId;
+
         let recipeDetails = []
-        //check if recipe is saved locally
-       if(localStorage.getItem(recipeId)){
-           recipeDetails = JSON.parse(localStorage.getItem(recipeId));
-       } else {
-           // Fetch the full recipe details using the recipe ID and display them in the modal
-           const response = await fetch(`/getRecipeDetails/${recipeId}`);
-           recipeDetails = await response.json();
-           if (response.status === 200) {
-               // success
-               // Save the recipe details in local storage
-               localStorage.setItem(recipeId, JSON.stringify(recipeDetails));
-           } else {
-               // error
-               alert('Error finding recipe details!');
-               return;
-           }
-       }
-           // success
+        let recipeCard = ""
+        // Check if the recipe is saved locally
+        if(localStorage.getItem(recipeId)){
+            recipeDetails = JSON.parse(localStorage.getItem(recipeId));
+        } else {
+            // const response = await fetch(`/getRecipeDetails/${recipeId}`);
+            //add language to parameters
+            const response = await fetch(`/getRecipeDetails/${recipeId}?language=de`);
 
-           const titleElement = document.createElement('h3');
-           titleElement.textContent = recipeDetails.title;
-           modalBody.appendChild(titleElement);
+            recipeDetails = await response.json();
 
-           const recipeImage = document.createElement('img');
-           recipeImage.src = recipeDetails.image;
-           recipeImage.alt = recipeDetails.title;
-           recipeImage.style.display = 'block';
-           recipeImage.style.margin = 'auto';
-           recipeImage.style.marginBottom = '2vh';
-           recipeImage.style.marginTop = '2vh';
-           recipeImage.className = 'img-fluid';
-           modalBody.appendChild(recipeImage);
-
-           const recipeSourceButton = document.createElement('a');
-           recipeSourceButton.href = recipeDetails.sourceUrl;
-           //open in new tab
-           recipeSourceButton.target = '_blank';
-           recipeSourceButton.textContent = 'View Recipe Source';
-           recipeSourceButton.className = 'btn btn-primary';
-
-           modalBody.appendChild(recipeSourceButton);
-           // Display more recipe details as needed
-           // For instance, let's say the recipeDetails contains an 'instructions' property:
-           const instructionsElement = document.createElement('p');
-           instructionsElement.innerHTML = recipeDetails.instructions;
-           modalBody.appendChild(instructionsElement);
-
-           // ... add other details as required ...
-           $('#recipeModal').modal('show');
+            if (response.status === 200) {
+                localStorage.setItem(recipeId, JSON.stringify(recipeDetails));
+            } else {
+                alert('Error finding recipe details!');
+                return;
+            }
+        }
+        // Check if recipeCard is saved locally. key is "card+id"
+        const cardId = 'card' + recipeId;
+        if(localStorage.getItem(cardId)){
+            recipeCard = JSON.parse(localStorage.getItem(cardId));
+        } else {
+            //get the recipe card per rest api
+            const response = await fetch(`/getRecipeCard/${recipeId}?language=de`);
+            recipeCard = await response.json();
+            console.log(recipeCard);
+            if(recipeCard.status === "success"){
+                localStorage.setItem(cardId, JSON.stringify(recipeCard));
+            } else {
+                alert('Error finding recipe card!');
+                return;
+            }
+        }
 
 
+        const titleElement = document.createElement('h3');
+        titleElement.textContent = recipeDetails.title;
+        titleElement.style.textAlign = 'center';
+        modalBody.appendChild(titleElement);
+        const recipeBody = document.createElement('div');
+        recipeBody.className = 'recipe-card-body';
+        modalBody.appendChild(recipeBody);
+        const recipeImage = document.createElement('img');
+        recipeImage.style.width = '70%';
+        // recipeImage.src = recipeDetails.image;
+        recipeImage.src = recipeCard.url;
+        recipeImage.alt = recipeDetails.title;
+        recipeImage.className = 'img-fluid';
+        recipeImage.style.display = 'block';
+        recipeImage.style.margin = 'auto';
+        recipeImage.style.marginBottom = '1vh';
+        recipeImage.style.marginTop = '1vh';
+        recipeBody.appendChild(recipeImage);
 
+        const recipeSummary = document.createElement('p');
+        recipeSummary.style.textAlign = 'justify';
+        recipeSummary.style.marginBottom = '1vh';
+        recipeSummary.style.fontSize = '2vh';
+        recipeSummary.style.marginRight = '1vw';
+        recipeSummary.innerHTML = recipeDetails.summary;
+        recipeBody.appendChild(recipeSummary);
 
+        if(recipeDetails.healthScore) {
+            const healthScoreElement = document.createElement('p');
+            healthScoreElement.textContent = `Health Score: ${recipeDetails.healthScore}`;
+            recipeBody.appendChild(healthScoreElement);
+        }
+
+        if(recipeDetails.diets.length > 0) {
+            const dietElement = document.createElement('p');
+            dietElement.textContent = `Suitable for: ${recipeDetails.diets.join(', ')}`;
+            modalBody.appendChild(dietElement);
+        }
+
+        const recipeSourceButton = document.createElement('a');
+        recipeSourceButton.href = recipeDetails.sourceUrl;
+        recipeSourceButton.target = '_blank';
+        recipeSourceButton.textContent = 'View Recipe Source';
+        recipeSourceButton.className = 'btn btn-primary';
+        modalBody.appendChild(recipeSourceButton);
+
+        $('#recipeModal').modal('show');
     }
+
 
 
     //every few seconds, update the inventory

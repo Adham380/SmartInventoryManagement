@@ -681,5 +681,33 @@
         "image": "spaghetti.jpg",
         "meta": [],
         "count": 1
+    },
+    "Brot": {
+        "id": 18064,
+        "original": "Brot",
+        "originalName": "Brot",
+        "name": "brot",
+        "amount": 2,
+        "unit": "servings",
+        "unitShort": "servings",
+        "unitLong": "servings",
+        "possibleUnits": [
+            "piece",
+            "slice",
+            "g",
+            "ounce",
+            "loaf",
+            "oz",
+            "serving"
+        ],
+        "estimatedCost": {
+            "value": 20,
+            "unit": "US Cents"
+        },
+        "consistency": "solid",
+        "aisle": "Bakery/Bread",
+        "image": "white-bread.jpg",
+        "meta": [],
+        "count": 1
     }
 }

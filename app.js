@@ -93,10 +93,11 @@ async function getBarcodeInfo(barcode) {
     }
 }
 //spoonacular api call. Get ingredients from text
-async function extractIngredientList(items) {
+async function extractIngredientList(items, language) {
     if(!Array.isArray(items)) items = [items];
     const ingredientText = items.join("\n");
-    const apiUrl = "https://api.spoonacular.com/recipes/parseIngredients?apiKey=6e1e5b3c0e34460b8b4ac864c2b36ed7&language=en";
+    language = language || "en";
+    const apiUrl = "https://api.spoonacular.com/recipes/parseIngredients?apiKey=6e1e5b3c0e34460b8b4ac864c2b36ed7&language=" + language;
 
     const formData = querystring.stringify({
         'ingredientList': ingredientText,
@@ -139,8 +140,27 @@ async function getRecipe(ingredients, number, diet) {
         console.log(error);
     }
 }
+async function getRecipeCard(recipeId){
+    const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+        }
+    }
+    const url = "https://api.spoonacular.com/recipes/" + recipeId + "/card?apiKey=6e1e5b3c0e34460b8b4ac864c2b36ed7&language=en";
+    try {
+        const response = await axios.get(url, options);
+        const data = await response.data;
+        console.log(data);
+        return data;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
 
 app.post('/getRecipe', async function (req, res, next) {
+    const language = req.body.language || "en";
    // body: JSON.stringify({
     //                     selectedItems: selectedItems,
     //                     diet: dietValue
@@ -148,12 +168,21 @@ app.post('/getRecipe', async function (req, res, next) {
     const ingredients = req.body.selectedItems;
     const diet = req.body.diet;
     const number = req.body.number;
-    const ingredientList = await extractIngredientList(ingredients);
+    const ingredientList = await extractIngredientList(ingredients, language);
+    if(ingredientList.status === "failure") {
+        res.status(400).send(ingredientList.message);
+    }
     const ingredientListNames = ingredientList.map(ingredient => ingredient.name);
     const recipe = await getRecipe(ingredientListNames, number, diet);
-    console.log(recipe);
     res.send(recipe);
 })
+app.get('/getRecipeCard/:recipeId', async function (req, res) {
+    const recipeId = req.params.recipeId;
+    const recipeCard = await getRecipeCard(recipeId);
+    console.log(recipeCard);
+    res.send(recipeCard);
+})
+
 //receives a post request from the client and adds the new item to the database by using the barcode to identify the item
 app.post('/addNewItem', async function (req, res, next) {
     const barcode = req.body.barcode;
@@ -204,7 +233,7 @@ app.get('/getInventory', function(req, res, next) {
 app.post('/addItemByTitle', async function (req, res, next) {
     const title = req.body.title;
     const inventory = loadData();
-
+    const language = req.body.language || "en";
     // Check if the item already exists
     if (inventory[title]) {
         inventory[title].count += 1; // Increment the count
@@ -276,6 +305,7 @@ const recipeId = req.params.recipeId;
         res.status(400).send('Recipe not found');
     }
 })
+
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

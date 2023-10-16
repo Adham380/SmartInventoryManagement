@@ -8,6 +8,15 @@
 .card-body{
   max-height: 15vh;
 }
+.recipe-card-body{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+
+}
+.modalContainer{
+  max-width: 80vw !important;
+}
 .edit-button {
   border: none;
   background-color: transparent;
