@@ -94,13 +94,13 @@
                 <!-- Add more diet options as needed -->
             </select>
 <!--            number of recipes-->
-        <label for="number">Number of Recipes:</label>
+        <label style="margin-top: 0.5vh" for="number">Number of Recipes:</label>
         <input type="number" id="number" name="number" min="1" max="10" value="5">
         </div>
         <button type="submit" class="btn btn-primary">Find Recipe</button>
     </form>
 <!--    Show recent recipes with button-->
-    <h3>Recent Recipes</h3>
+    <h3 style="margin-top: 2vh">Recent Recipes</h3>
     <button class="btn btn-primary" onclick="showRecentRecipes()">Show Recent Recipes</button>
     <div class="row mt-4" id="recentRecipes">
         <!-- Recent recipes will be populated here -->
@@ -477,6 +477,19 @@
         return selectedItems;
     }
 
+    function scrollToBottomOfDiv(id){
+        const div = document.getElementById(id);
+        const divBottom = div.getBoundingClientRect().bottom;
+
+        // Calculate the necessary scroll position to get the bottom of the div into view
+        const scrollPosition = window.scrollY + divBottom - window.innerHeight;
+
+        // Scroll smoothly to the calculated position
+        window.scrollTo({
+            top: scrollPosition,
+            behavior: "smooth"
+        });
+    }
     const recipeFinderForm = document.getElementById('recipeFinderForm');
     const dietInput = document.getElementById('diet');
 
@@ -518,6 +531,9 @@
             recipeDiv.appendChild(card);
             recentRecipes.appendChild(recipeDiv);
         });
+        //     scroll down to the bottom of recent recipes
+        scrollToBottomOfDiv('recentRecipes');
+
     }
     //get the selected items and diet and send them to the server to find a recipe with /getRecipe
     recipeFinderForm.addEventListener('submit', async (e) => {
@@ -550,7 +566,6 @@
 
             if(response.status === 200) {
                 // success
-                alert('Recipes found successfully!');
 
                 const recipesSection = document.getElementById('recipesSection');
                 recipesSection.innerHTML = '';  // Clear previous recipes
@@ -590,7 +605,8 @@
                     recipeDiv.appendChild(card);
                     recipesSection.appendChild(recipeDiv);
                 });
-
+            //     scroll down to recipes
+                scrollToBottomOfDiv('recipesSection');
             } else {
                 // error
                 alert('Error finding recipes!');
@@ -644,15 +660,16 @@
         }
 
 
-        const titleElement = document.createElement('h3');
-        titleElement.textContent = recipeDetails.title;
-        titleElement.style.textAlign = 'center';
-        modalBody.appendChild(titleElement);
+        // const titleElement = document.createElement('h3');
+        // titleElement.textContent = recipeDetails.title;
+        // titleElement.style.textAlign = 'center';
+        // modalBody.appendChild(titleElement);
         const recipeBody = document.createElement('div');
         recipeBody.className = 'recipe-card-body';
         modalBody.appendChild(recipeBody);
         const recipeImage = document.createElement('img');
-        recipeImage.style.width = '70%';
+        recipeImage.style.width = '55%';
+        //cut off bottom 10% of image
         // recipeImage.src = recipeDetails.image;
         recipeImage.src = recipeCard.url;
         recipeImage.alt = recipeDetails.title;
@@ -666,7 +683,7 @@
         const recipeSummary = document.createElement('p');
         recipeSummary.style.textAlign = 'justify';
         recipeSummary.style.marginBottom = '1vh';
-        recipeSummary.style.fontSize = '2vh';
+        recipeSummary.style.fontSize = '1.8vh';
         recipeSummary.style.marginRight = '1vw';
         recipeSummary.innerHTML = recipeDetails.summary;
         recipeBody.appendChild(recipeSummary);
