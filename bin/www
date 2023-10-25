@@ -7,6 +7,13 @@
 var app = require('../app');
 var debug = require('debug')('smart-inventory-webserver:server');
 var http = require('http');
+var https = require('https'); // <-- Import HTTPS module
+var fs = require('fs'); // <-- Import File System module to read the certificates
+// Point to the generated certificates
+//list files found in the directory
+const certificate = fs.readFileSync(__dirname + '/localhost+2.pem', 'utf8');
+const privateKey = fs.readFileSync(__dirname + '/localhost+2-key.pem', 'utf8');
+const credentials = { key: privateKey, cert: certificate };
 
 /**
  * Get port from environment and store in Express.
@@ -19,7 +26,8 @@ app.set('port', port);
  * Create HTTP server.
  */
 
-var server = http.createServer(app);
+// var server = http.createServer(app);
+var server = https.createServer(credentials, app); // <-- Use HTTPS here with the credentials
 
 /**
  * Listen on provided port, on all network interfaces.
@@ -103,7 +111,7 @@ function logIPAddresses() {
   Object.keys(networkInterfaces).forEach(ifName => {
     networkInterfaces[ifName].forEach(iface => {
       if (iface.family === 'IPv4' && !iface.internal) {
-        console.log(`  http://${iface.address}:${server.address().port}`);
+        console.log(`  https://${iface.address}:${server.address().port}`);
       }
     });
   });

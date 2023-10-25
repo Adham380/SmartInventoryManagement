@@ -101,7 +101,7 @@
         "ingredients": [],
         "ingredientCount": 0,
         "ingredientList": "",
-        "count": "3"
+        "count": 5
     },
     "Chiquita Juicy Red Apple & Grape Bites, 2.2 oz": {
         "id": 40484,
@@ -649,7 +649,7 @@
         ],
         "ingredientCount": 17,
         "ingredientList": "Wasser, Säuerungsmittel Citronensäure, Kohlensäure, Taurin 0,4%, Säureregulator (Trinatriumcitrat), Aroma, Süßungsmittel (Acesulfam K, Aspartam), Koffein 0,032%, Farbstoff (Ammoniak-Zuckerkulör), Niacin, Pantothensäure, Vitamin B6",
-        "count": "1"
+        "count": 4
     },
     "Spaghetti": {
         "id": 11420420,
@@ -707,6 +707,631 @@
         "consistency": "solid",
         "aisle": "Bakery/Bread",
         "image": "white-bread.jpg",
+        "meta": [],
+        "count": 1
+    },
+    "Banane": {
+        "id": 9040,
+        "original": "Banane",
+        "originalName": "Banane",
+        "name": "banane",
+        "amount": 2,
+        "unit": "servings",
+        "unitShort": "servings",
+        "unitLong": "servings",
+        "possibleUnits": [
+            "small",
+            "large",
+            "piece",
+            "slice",
+            "g",
+            "extra small",
+            "medium",
+            "oz",
+            "extra large",
+            "NLEA serving",
+            "cup",
+            "cup mashed"
+        ],
+        "estimatedCost": {
+            "value": 33.6,
+            "unit": "US Cents"
+        },
+        "consistency": "solid",
+        "shoppingListUnits": [
+            "pieces"
+        ],
+        "aisle": "Produce",
+        "image": "bananas.jpg",
+        "meta": [],
+        "count": 1
+    },
+    "Hemme Milch Eiskaffee": {
+        "id": 11461018,
+        "title": "Hemme Milch Eiskaffee",
+        "price": 0,
+        "likes": 0,
+        "badges": [
+            "egg_free",
+            "peanut_free",
+            "primal",
+            "sulfite_free",
+            "nut_free",
+            "no_preservatives",
+            "soy_free",
+            "msg_free",
+            "no_artificial_colors",
+            "sugar_free",
+            "no_artificial_flavors",
+            "vegetarian",
+            "no_artificial_ingredients",
+            "no_additives",
+            "corn_free",
+            "gluten_free"
+        ],
+        "importantBadges": [
+            "gluten_free"
+        ],
+        "nutrition": {
+            "nutrients": [
+                {
+                    "name": "Carbohydrates",
+                    "amount": 10.6,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 3.53
+                },
+                {
+                    "name": "Fat",
+                    "amount": 3.6,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 5.54
+                },
+                {
+                    "name": "Saturated Fat",
+                    "amount": 2.2,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 13.75
+                },
+                {
+                    "name": "Protein",
+                    "amount": 3.2,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 6.4
+                },
+                {
+                    "name": "Sodium",
+                    "amount": 0.2,
+                    "unit": "mg",
+                    "percentOfDailyNeeds": 0.01
+                },
+                {
+                    "name": "Sugar",
+                    "amount": 9.6,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 10.67
+                },
+                {
+                    "name": "Net Carbohydrates",
+                    "amount": 10.6,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 3.85
+                }
+            ],
+            "caloricBreakdown": {
+                "percentProtein": 14.61,
+                "percentFat": 36.99,
+                "percentCarbs": 48.4
+            },
+            "calories": null,
+            "fat": "3.5999999046325684g",
+            "protein": "3.200000047683716g",
+            "carbs": "10.600000381469727g"
+        },
+        "servings": {
+            "number": 1,
+            "size": null,
+            "unit": null
+        },
+        "spoonacularScore": 100,
+        "breadcrumbs": [
+            "milk",
+            "drink",
+            "menu item type"
+        ],
+        "aisle": "Milk, Eggs, Other Dairy",
+        "description": null,
+        "image": "https://spoonacular.com/productImages/11461018-312x231.jpg",
+        "imageType": "jpg",
+        "images": [
+            "https://spoonacular.com/productImages/11461018-90x90.jpg",
+            "https://spoonacular.com/productImages/11461018-312x231.jpg",
+            "https://spoonacular.com/productImages/11461018-636x393.jpg"
+        ],
+        "generatedText": "Hemme Milch Eiskaffee: This dairy milk is outstanding for anyone following a vegetarian diet. We recommend choosing products with short ingredient lists, as these tend to be less processed. This product has no ingredients.",
+        "upc": "4260046691112",
+        "brand": null,
+        "ingredients": [],
+        "ingredientCount": 0,
+        "ingredientList": "",
+        "count": 1
+    },
+    "Milch": {
+        "id": 1077,
+        "original": "Milch",
+        "originalName": "Milch",
+        "name": "milch",
+        "amount": 2,
+        "unit": "servings",
+        "unitShort": "servings",
+        "unitLong": "servings",
+        "possibleUnits": [
+            "quart",
+            "g",
+            "oz",
+            "teaspoon",
+            "fluid ounce",
+            "cup",
+            "serving",
+            "tablespoon"
+        ],
+        "estimatedCost": {
+            "value": 66.17,
+            "unit": "US Cents"
+        },
+        "consistency": "liquid",
+        "shoppingListUnits": [
+            "ounces",
+            "gallons",
+            "quarts"
+        ],
+        "aisle": "Milk, Eggs, Other Dairy",
+        "image": "milk.png",
+        "meta": [],
+        "count": 1
+    },
+    "Triple chocolate fudge": {
+        "id": 11986374,
+        "title": "Triple chocolate fudge",
+        "price": 0,
+        "likes": 0,
+        "badges": [
+            "egg_free",
+            "peanut_free",
+            "primal",
+            "sulfite_free",
+            "nut_free",
+            "vegan",
+            "no_preservatives",
+            "soy_free",
+            "msg_free",
+            "no_artificial_colors",
+            "sugar_free",
+            "no_artificial_flavors",
+            "vegetarian",
+            "no_artificial_ingredients",
+            "no_additives",
+            "corn_free",
+            "dairy_free",
+            "paleo",
+            "gluten_free"
+        ],
+        "importantBadges": [
+            "gluten_free"
+        ],
+        "nutrition": {
+            "nutrients": [
+                {
+                    "name": "Carbohydrates",
+                    "amount": 33.33,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 11.11
+                },
+                {
+                    "name": "Fat",
+                    "amount": 10.33,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 15.9
+                },
+                {
+                    "name": "Saturated Fat",
+                    "amount": 5.83,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 36.46
+                },
+                {
+                    "name": "Fiber",
+                    "amount": 11,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 44
+                },
+                {
+                    "name": "Protein",
+                    "amount": 33.33,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 66.67
+                },
+                {
+                    "name": "Sodium",
+                    "amount": 1.46,
+                    "unit": "mg",
+                    "percentOfDailyNeeds": 0.06
+                },
+                {
+                    "name": "Sugar",
+                    "amount": 3.17,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 3.52
+                },
+                {
+                    "name": "Net Carbohydrates",
+                    "amount": 22.33,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 8.12
+                }
+            ],
+            "caloricBreakdown": {
+                "percentProtein": 37.07,
+                "percentFat": 25.86,
+                "percentCarbs": 37.07
+            },
+            "calories": null,
+            "fat": "10.333333015441895g",
+            "protein": "33.33333206176758g",
+            "carbs": "33.33333206176758g"
+        },
+        "servings": {
+            "number": 1,
+            "size": 60,
+            "unit": "g"
+        },
+        "spoonacularScore": 100,
+        "breadcrumbs": [
+            "fudge",
+            "dessert",
+            "menu item type"
+        ],
+        "aisle": "Sweet Snacks",
+        "description": null,
+        "image": "https://spoonacular.com/productImages/11986374-312x231.jpg",
+        "imageType": "jpg",
+        "images": [
+            "https://spoonacular.com/productImages/11986374-90x90.jpg",
+            "https://spoonacular.com/productImages/11986374-312x231.jpg",
+            "https://spoonacular.com/productImages/11986374-636x393.jpg"
+        ],
+        "generatedText": "This product has no ingredients (in our experience: the fewer ingredients, the better!)",
+        "upc": "5059883177496",
+        "brand": null,
+        "ingredients": [],
+        "ingredientCount": 0,
+        "ingredientList": "",
+        "count": 1
+    },
+    "Sausage": {
+        "id": 1017063,
+        "original": "Sausage",
+        "originalName": "Sausage",
+        "name": "sausage",
+        "amount": 2,
+        "unit": "servings",
+        "unitShort": "servings",
+        "unitLong": "servings",
+        "possibleUnits": [
+            "piece",
+            "g",
+            "oz"
+        ],
+        "estimatedCost": {
+            "value": 1.55,
+            "unit": "US Cents"
+        },
+        "consistency": "solid",
+        "shoppingListUnits": [
+            "ounces",
+            "pounds"
+        ],
+        "aisle": "Meat",
+        "image": "raw-pork-sausage.png",
+        "meta": [],
+        "count": 1
+    },
+    "Knusper Erbsen - Paprika": {
+        "id": 8841346,
+        "title": "Knusper Erbsen - Paprika",
+        "price": 0,
+        "likes": 0,
+        "badges": [
+            "egg_free",
+            "peanut_free",
+            "sulfite_free",
+            "nut_free",
+            "vegan",
+            "no_preservatives",
+            "soy_free",
+            "msg_free",
+            "no_artificial_colors",
+            "no_artificial_flavors",
+            "vegetarian",
+            "no_artificial_ingredients",
+            "no_additives",
+            "corn_free",
+            "dairy_free"
+        ],
+        "importantBadges": [],
+        "nutrition": {
+            "nutrients": [
+                {
+                    "name": "Carbohydrates",
+                    "amount": 57,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 19
+                },
+                {
+                    "name": "Fat",
+                    "amount": 12,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 18.46
+                },
+                {
+                    "name": "Saturated Fat",
+                    "amount": 1.1,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 6.88
+                },
+                {
+                    "name": "Fiber",
+                    "amount": 12,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 48
+                },
+                {
+                    "name": "Protein",
+                    "amount": 15,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 30
+                },
+                {
+                    "name": "Sodium",
+                    "amount": 1,
+                    "unit": "mg",
+                    "percentOfDailyNeeds": 0.04
+                },
+                {
+                    "name": "Sugar",
+                    "amount": 9.2,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 10.22
+                },
+                {
+                    "name": "Net Carbohydrates",
+                    "amount": 45,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 16.36
+                }
+            ],
+            "caloricBreakdown": {
+                "percentProtein": 15.15,
+                "percentFat": 27.27,
+                "percentCarbs": 57.58
+            },
+            "calories": null,
+            "fat": "12g",
+            "protein": "15g",
+            "carbs": "57g"
+        },
+        "servings": {
+            "number": 4,
+            "size": 25,
+            "unit": "25g"
+        },
+        "spoonacularScore": 97.5,
+        "breadcrumbs": [
+            "paprika",
+            "spices",
+            "ingredient"
+        ],
+        "aisle": "Spices and Seasonings",
+        "description": null,
+        "image": "https://spoonacular.com/productImages/8841346-312x231.jpg",
+        "imageType": "jpg",
+        "images": [
+            "https://spoonacular.com/productImages/8841346-90x90.jpg",
+            "https://spoonacular.com/productImages/8841346-312x231.jpg",
+            "https://spoonacular.com/productImages/8841346-636x393.jpg"
+        ],
+        "generatedText": "In the mood for ground paprika? You could try Knusper Erbsen - Paprika. We recommend choosing products with short ingredient lists, as these tend to be less processed. This product has 9 ingredients. According to our research, this product contains no ingredients that you should avoid.",
+        "upc": "4012200327104",
+        "brand": null,
+        "ingredients": [
+            {
+                "name": "sonnenblumenöl",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "backtriebmittel ammoniumbicarbonat",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "60 % grüne erbsen",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "gewürze",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "maisstärke",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "paprika 1%",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "zucker",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "weizenmehl",
+                "safety_level": null,
+                "description": null
+            },
+            {
+                "name": "salz",
+                "safety_level": null,
+                "description": null
+            }
+        ],
+        "ingredientCount": 9,
+        "ingredientList": "60 % grüne Erbsen, Maisstärke, Weizenmehl, Sonnenblumenöl, Zucker, Paprika 1%, Salz, Gewürze, Backtriebmittel Ammoniumbicarbonat",
+        "count": 3
+    },
+    "7024441085207": {
+        "original": "7024441085207",
+        "originalName": "",
+        "name": "",
+        "amount": 7024441000000,
+        "unitShort": "",
+        "unitLong": "",
+        "meta": [],
+        "count": 1
+    },
+    "4102380034326": {
+        "original": "4102380034326",
+        "originalName": "",
+        "name": "",
+        "amount": 4102380060000,
+        "unitShort": "",
+        "unitLong": "",
+        "meta": [],
+        "count": 1
+    },
+    "Sunny Melon": {
+        "id": 10198994,
+        "title": "Sunny Melon",
+        "price": 0,
+        "likes": 0,
+        "badges": [
+            "egg_free",
+            "peanut_free",
+            "primal",
+            "sulfite_free",
+            "nut_free",
+            "vegan",
+            "no_preservatives",
+            "soy_free",
+            "msg_free",
+            "no_artificial_colors",
+            "sugar_free",
+            "no_artificial_flavors",
+            "vegetarian",
+            "no_artificial_ingredients",
+            "no_additives",
+            "corn_free",
+            "dairy_free",
+            "paleo",
+            "gluten_free"
+        ],
+        "importantBadges": [
+            "gluten_free"
+        ],
+        "nutrition": {
+            "nutrients": [
+                {
+                    "name": "Carbohydrates",
+                    "amount": 4.6,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 1.53
+                },
+                {
+                    "name": "Fat",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Saturated Fat",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Protein",
+                    "amount": 0,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Sodium",
+                    "amount": 0,
+                    "unit": "mg",
+                    "percentOfDailyNeeds": 0
+                },
+                {
+                    "name": "Sugar",
+                    "amount": 4.6,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 5.11
+                },
+                {
+                    "name": "Net Carbohydrates",
+                    "amount": 4.6,
+                    "unit": "g",
+                    "percentOfDailyNeeds": 1.67
+                }
+            ],
+            "caloricBreakdown": {
+                "percentProtein": 0,
+                "percentFat": 0,
+                "percentCarbs": 100
+            },
+            "calories": null,
+            "fat": "0g",
+            "protein": "0g",
+            "carbs": "4.599999904632568g"
+        },
+        "servings": {
+            "number": 1,
+            "size": null,
+            "unit": null
+        },
+        "spoonacularScore": 100,
+        "breadcrumbs": [
+            "melon",
+            "fruit",
+            "flavor"
+        ],
+        "aisle": "Produce",
+        "description": null,
+        "image": "https://spoonacular.com/productImages/10198994-312x231.jpg",
+        "imageType": "jpg",
+        "images": [
+            "https://spoonacular.com/productImages/10198994-90x90.jpg",
+            "https://spoonacular.com/productImages/10198994-312x231.jpg",
+            "https://spoonacular.com/productImages/10198994-636x393.jpg"
+        ],
+        "generatedText": "Sunny Melon: This product is a spectacular match if you like to buy products that are free of preservatives, vegetarian, vegan, and gluten-free. We recommend choosing products with short ingredient lists, as these tend to be less processed. This product has no ingredients.",
+        "upc": "4102380034326",
+        "brand": null,
+        "ingredients": [],
+        "ingredientCount": 0,
+        "ingredientList": "",
+        "count": 5
+    },
+    "7551440641702": {
+        "original": "7551440641702",
+        "originalName": "",
+        "name": "",
+        "amount": 7551440700000,
+        "unitShort": "",
+        "unitLong": "",
         "meta": [],
         "count": 1
     }

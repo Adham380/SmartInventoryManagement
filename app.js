@@ -9,11 +9,14 @@ var usersRouter = require('./routes/users');
 const http = require("http");
 const https = require("https");
 const axios = require("axios");
+require('dotenv').config();
 const querystring = require("querystring");
 const fs = require("fs");
+// Get from local ApiKeys.env file
+const spoonacularApiKey = process.env.SPOONACULAR_API_KEY;
 var app = express();
 
-// view engine setup
+// view engine setupction. Keep in mind that using self-signed certificates might bring up security warnings which you'll have to bypass manually.
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'pug');
 
@@ -73,7 +76,7 @@ let inventory = loadData();
 //get from upcitemdb api free version
 async function getBarcodeInfo(barcode) {
    // const url = "https://api.upcitemdb.com/prod/trial/lookup?upc=" + barcode;
-    const url = "https://api.spoonacular.com/food/products/upc/" + barcode + "?apiKey=6e1e5b3c0e34460b8b4ac864c2b36ed7";
+    const url = "https://api.spoonacular.com/food/products/upc/" + barcode + "?apiKey=" + spoonacularApiKey;
     const options = {
          method: "GET",
             headers: {
@@ -97,7 +100,7 @@ async function extractIngredientList(items, language) {
     if(!Array.isArray(items)) items = [items];
     const ingredientText = items.join("\n");
     language = language || "en";
-    const apiUrl = "https://api.spoonacular.com/recipes/parseIngredients?apiKey=6e1e5b3c0e34460b8b4ac864c2b36ed7&language=" + language;
+    const apiUrl = "https://api.spoonacular.com/recipes/parseIngredients?apiKey="+ spoonacularApiKey+ "&language=" + language;
 
     const formData = querystring.stringify({
         'ingredientList': ingredientText,
@@ -123,7 +126,7 @@ async function extractIngredientList(items, language) {
 }
 //spoonacular api call. Get recipe based on ingredients, number of recipes and diet
 async function getRecipe(ingredients, number, diet) {
-    const url = "https://api.spoonacular.com/recipes/findByIngredients?ingredients=" + ingredients + "&number=" + number + "&diet=" + diet + "&apiKey=6e1e5b3c0e34460b8b4ac864c2b36ed7";
+    const url = "https://api.spoonacular.com/recipes/findByIngredients?ingredients=" + ingredients + "&number=" + number + "&diet=" + diet + "&apiKey=" + spoonacularApiKey;
     const options = {
         method: "GET",
         headers: {
@@ -147,12 +150,32 @@ async function getRecipeCard(recipeId){
             "Content-Type": "application/json"
         }
     }
-    const url = "https://api.spoonacular.com/recipes/" + recipeId + "/card?apiKey=6e1e5b3c0e34460b8b4ac864c2b36ed7&language=en";
+    const url = "https://api.spoonacular.com/recipes/" + recipeId + "/card?apiKey=" + spoonacularApiKey + "&language=en";
     try {
         const response = await axios.get(url, options);
         const data = await response.data;
         console.log(data);
         return data;
+    }
+    catch (error) {
+        console.log(error);
+    }
+}
+
+async function getComplexRecipe(ingredientListNames, number, diet, intolerances, availableEquipment, maxReadyTime) {
+    let url = "https://api.spoonacular.com/recipes/complexSearch?includeIngredients=" + ingredientListNames + "&number=" + number + "&diet=" + diet + "&intolerances=" + intolerances + "&equipment=" + availableEquipment + "&maxReadyTime=" + maxReadyTime + "&apiKey=" + spoonacularApiKey;
+// make url url friendly
+    url = encodeURI(url);
+    const options = {
+        method: "GET",
+        headers: {
+            "Content-Type": "application/json"
+
+        }
+    }
+    try {
+        const response = await axios.get(url, options);
+        return await response.data;
     }
     catch (error) {
         console.log(error);
@@ -186,10 +209,13 @@ app.get('/getRecipeCard/:recipeId', async function (req, res) {
 //receives a post request from the client and adds the new item to the database by using the barcode to identify the item
 app.post('/addNewItem', async function (req, res, next) {
     const barcode = req.body.barcode;
+    console.log(req.body)
     const itemInfo = await getBarcodeInfo(barcode);
 
     let inventory = loadData(); // Load existing data
-
+    if(!itemInfo) {
+        res.status(400).send('Item not found');
+    }
     if (itemInfo.status === "failure") {
         console.log("Item with barcode " + barcode + " not found");
         res.status(400).send('Item not found');
@@ -256,7 +282,7 @@ app.patch('/updateItem', async function (req, res, next) {
         if(req.body.count == 0) {
             delete inventory[title];
         } else {
-            inventory[title].count = req.body.count;
+            inventory[title].count = parseInt(req.body.count)
         }
     } else {
         res.status(400).send('Item not found');
@@ -287,7 +313,7 @@ app.delete('/removeItem', async function (req, res, next) {
 })
 app.get('/getRecipeDetails/:recipeId', async function (req, res, next) {
 const recipeId = req.params.recipeId;
-    const url = "https://api.spoonacular.com/recipes/" + recipeId + "/information?apiKey=6e1e5b3c0e34460b8b4ac864c2b36ed7";
+    const url = "https://api.spoonacular.com/recipes/" + recipeId + "/information?apiKey=" + spoonacularApiKey;
     const options = {
         method: "GET",
         headers: {
@@ -306,6 +332,30 @@ const recipeId = req.params.recipeId;
     }
 })
 
+
+app.post('/getComplexRecipes', async function (req, res, next) {
+//     Built similar to the getRecipe function, but with a different API call and more parameters
+    const ingredients = req.body.selectedItems;
+    const diet = req.body.diet;
+    const number = req.body.number;
+    const intolerances = req.body.intolerances;
+    const availableEquipment = req.body.availableEquipment;
+    const maxReadyTime = req.body.maxReadyTime;
+    console.log(req.body)
+const ingredientList = await extractIngredientList(ingredients);
+    if(ingredientList.status === "failure") {
+        res.status(400).send(ingredientList.message);
+    }
+    const ingredientListNames = ingredientList.map(ingredient => ingredient.name);
+    const recipe = await getComplexRecipe(ingredientListNames, number, diet, intolerances, availableEquipment, maxReadyTime);
+    if(recipe.results.length === 0) {
+        res.status(400).send('No recipes found');
+    } else {
+        console.log(recipe);
+        // console.log(recipe.results);
+        res.send(recipe.results);
+    }
+});
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
   next(createError(404));

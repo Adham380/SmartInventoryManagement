@@ -29,10 +29,16 @@
         <div class="form-group" id="inputFieldDiv">
             <input type="text" class="form-control" id="inputField" name="inputField" required>
         </div>
-        <button type="submit" class="btn btn-primary">Add Item</button>
+
+        <div class="form-group">
+            <button type="button" id="startScan" class="btn btn-primary">Start Scanning</button>
+            <div id="scanner-container" style="display: none"></div>
+        </div>
+
+        <button id="addItemButton" type="submit" class="btn btn-primary">Add Item</button>
     </form>
 
-    <div class="d-flex mt-4 justify-content-between align-items-center">
+    <div class="d-flex mt-4 justify-content-between align-items-center" style="flex-wrap: wrap">
         <input type="text" id="searchBar" class="form-control w-50" placeholder="Search items..." onkeyup="filterItems()">
 <!--        sort-->
         <div>
@@ -68,7 +74,7 @@
             <nav>
                 <ul class="pagination">
                     <div style="display: flex; flex-direction: row; align-items: center; gap: 0.2vw; margin-right: 1vw">
-                    <input style="width: 2vw" type="number" id="currentPage" value="1" onchange="changePage()">
+                    <input style="width: 5vw" type="number" id="currentPage" value="1" onchange="changePage()">
                     <div>of</div>
                     <div id="totalPages"></div>
                     </div>
@@ -94,10 +100,60 @@
                 <!-- Add more diet options as needed -->
             </select>
 <!--            number of recipes-->
-        <label style="margin-top: 0.5vh" for="number">Number of Recipes:</label>
+        <label style="margin-top: 1vh" for="number">Number of Recipes:</label>
         <input type="number" id="number" name="number" min="1" max="10" value="5">
         </div>
+
+        <div class="form-group">
+            <label for="searchMethod">Search Method:</label>
+            <select class="form-control" id="searchMethod" name="searchMethod">
+                <option value="simple">Simple</option>
+                <option value="complex">Complex</option>
+            </select>
+        </div>
+        <!--        Add checkboxes for intolerances, available equipment and to choose max ready time-->
+        <div id="complexSearchContainer" style="display: none">
+            <!-- Additional parameters for complex search can be added here -->
+            <!--        Dropdown simple/complex search-->
+            <div class="form-group">
+                <label for="intolerances">Intolerances:</label>
+                <div id="intolerances">
+                    <input type="checkbox" name="intolerances" value="dairy"> Dairy<br>
+                    <input type="checkbox" name="intolerances" value="egg"> Egg<br>
+                    <input type="checkbox" name="intolerances" value="gluten"> Gluten<br>
+                    <input type="checkbox" name="intolerances" value="grain"> Grain<br>
+                    <input type="checkbox" name="intolerances" value="peanut"> Peanut<br>
+                    <input type="checkbox" name="intolerances" value="seafood"> Seafood<br>
+                    <input type="checkbox" name="intolerances" value="sesame"> Sesame<br>
+                    <input type="checkbox" name="intolerances" value="shellfish"> Shellfish<br>
+                    <input type="checkbox" name="intolerances" value="soy"> Soy<br>
+                    <input type="checkbox" name="intolerances" value="sulfite"> Sulfite<br>
+                    <input type="checkbox" name="intolerances" value="tree nut"> Tree Nut<br>
+                    <input type="checkbox" name="intolerances" value="wheat"> Wheat<br>
+                    <!-- Add more intolerances as needed -->
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="availableEquipment">Available Equipment:</label>
+                <div id="availableEquipment">
+                    <input type="checkbox" name="availableEquipment" value="blender"> Blender<br>
+                    <input type="checkbox" name="availableEquipment" value="grill"> Grill<br>
+                    <input type="checkbox" name="availableEquipment" value="oven"> Oven<br>
+                    <input type="checkbox" name="availableEquipment" value="microwave"> Microwave<br>
+                    <input type="checkbox" name="availableEquipment" value="toaster"> Toaster<br>
+                    <input type="checkbox" name="availableEquipment" value="stove"> Stove<br>
+                    <!-- Add more equipment as needed -->
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label for="maxReadyTime">Max Ready Time (minutes):</label>
+                <input type="number" id="maxReadyTime" name="maxReadyTime" min="1" max="240" value="60">
+            </div>
+        </div>
         <button type="submit" class="btn btn-primary">Find Recipe</button>
+
     </form>
 <!--    Show recent recipes with button-->
     <h3 style="margin-top: 2vh">Recent Recipes</h3>
@@ -132,8 +188,42 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
+<script src="https://cdn.jsdelivr.net/npm/@ericblade/quagga2/dist/quagga.min.js"></script>
 <script>
+    if(localStorage.getItem("searchMethod") === "complex"){
+        document.getElementById('complexSearchContainer').style.display = 'block';
+        document.getElementById('searchMethod').value = 'complex';
+    } else {
+        document.getElementById('complexSearchContainer').style.display = 'none';
+        document.getElementById('searchMethod').value = 'simple';
+    }
+<!--    Check if intolerances, available equipment and  max ready time exist locally, if so, set them-->
+if(localStorage.getItem('intolerances')){
+    const intolerances = localStorage.getItem('intolerances').split(',');
+    intolerances.forEach(intolerance => {
+        document.querySelector(`#intolerances input[value="${intolerance}"]`).checked = true;
+    });
+}
+if(localStorage.getItem('availableEquipment')){
+    const availableEquipment = localStorage.getItem('availableEquipment').split(',');
+    availableEquipment.forEach(equipment => {
+        document.querySelector(`#availableEquipment input[value="${equipment}"]`).checked = true;
+    });
+}
+if(localStorage.getItem('maxReadyTime')){
+    document.getElementById('maxReadyTime').value = localStorage.getItem('maxReadyTime');
+}
+const searchMethodDropdown = document.getElementById('searchMethod');
+    searchMethodDropdown.addEventListener('change', () => {
+        const complexSearchContainer = document.getElementById('complexSearchContainer');
+        if(searchMethodDropdown.value === 'complex') {
+            complexSearchContainer.style.display = 'block';
+            localStorage.setItem('searchMethod', 'complex');
+        } else {
+            complexSearchContainer.style.display = 'none';
+            localStorage.setItem('searchMethod', 'simple');
+        }
+    });
     function showRecentRecipes(){
         const recentRecipes = document.getElementById('recentRecipes');
         recentRecipes.innerHTML = '';
@@ -240,9 +330,18 @@
         renderItems();
     }
     function updateItemsPerPage() {
-        itemsPerPage = document.getElementById('itemsPerPage').value;
+        const oldItemsPerPage = itemsPerPage;
+        itemsPerPage = parseInt(document.getElementById('itemsPerPage').value);
+
+        // Calculate the index of the first item on the current page
+        const firstVisibleItemIndex = (currentPage - 1) * oldItemsPerPage;
+
+        // Recalculate currentPage so that the firstVisibleItemIndex remains visible
+        currentPage = Math.ceil((firstVisibleItemIndex + 1) / itemsPerPage);
+
         renderItems();
     }
+
 
     function nextPage() {
         if(currentPage === Math.ceil(document.querySelectorAll('.col-md-3').length / itemsPerPage)) {
@@ -261,10 +360,11 @@
     }
 
     function renderItems() {
+        console.log('render items');
         const items = document.querySelectorAll('.col-md-3');
+        //make sure that if the current page is not the first, then recalculate the start index and end index and show the appropiate page
         const startIndex = (currentPage - 1) * itemsPerPage;
-        const endIndex = startIndex + itemsPerPage;
-
+        const endIndex = startIndex + parseInt(itemsPerPage)
         items.forEach((item, index) => {
             if (index >= startIndex && index < endIndex) {
                 item.style.display = 'block';
@@ -273,7 +373,7 @@
             }
         });
         document.querySelector('#totalPages').textContent = Math.ceil(items.length / itemsPerPage).toString();
-
+        document.querySelector('#currentPage').value = currentPage.toString();
     }
     // ... Additional logic for rendering items based on pagination
 
@@ -345,7 +445,10 @@
     async function fetchAndDisplayInventory(refreshBoolean) {
         try {
             const response = await fetch('/getInventory');
-            const inventory = await response.json();
+            let inventory = await response.json();
+            //filter items that fulfill the condition that the key that is called "id" exists and the value is a number
+            inventory = Object.fromEntries(Object.entries(inventory).filter(([key, value]) => isNaN(key)));
+
             refreshBoolean = refreshBoolean || false;
 
             const inventoryGrid = document.getElementById('inventoryGrid');
@@ -353,7 +456,6 @@
 
             for (let title in inventory) {
                 const item = inventory[title];
-
                 //check if card already exists and count is equal to item.count card-title card-text in card-body
                 //get all card bodies and check
                 const cardBodies = document.querySelectorAll('.card-body');
@@ -361,11 +463,9 @@
                 cardBodies.forEach(cardBody => {
                     if(cardBody.querySelector('.card-title').textContent === title && cardBody.querySelector('.card-text').textContent == `count: ${item.count}`){
                         cardExists = true;
-                        console.log('card exists');
                     } else if (cardBody.querySelector('.card-title').textContent === title && cardBody.querySelector('.card-text').textContent != `count: ${item.count}`){
                         cardExists = true;
                         cardBody.querySelector('.card-text').textContent = `count: ${item.count}`;
-                        console.log('card count updated');
                     }
                 });
                 if(cardExists && !refreshBoolean){
@@ -492,7 +592,9 @@
     }
     const recipeFinderForm = document.getElementById('recipeFinderForm');
     const dietInput = document.getElementById('diet');
-
+    //get diet from local storage and set it as default
+    const diet = localStorage.getItem('diet') || '';
+    dietInput.selectedIndex = Array.from(dietInput.options).findIndex(option => option.value === diet);
     function recipeCardsBuilder(recipes){
         const recentRecipes = document.getElementById('recentRecipes');
         recentRecipes.innerHTML = '';
@@ -538,10 +640,38 @@
     //get the selected items and diet and send them to the server to find a recipe with /getRecipe
     recipeFinderForm.addEventListener('submit', async (e) => {
         e.preventDefault();
+        const searchMethodDropdown = document.getElementById('searchMethod');
 
         const selectedItems = getSelectedItems();
         const number = document.getElementById('number').value;
         const dietValue = dietInput.value;
+        // const intolerances = req.body.intolerances;
+        // const availableEquipment = req.body.availableEquipment;
+        // const maxReadyTime = req.body.maxReadyTime;
+        // If the user has selected the complex search method, then additional parameters can be added here
+        const searchMethod = searchMethodDropdown.value;
+        // Get selected intolerances as a comma-separated string
+        let intolerances = "";
+        document.querySelectorAll('#intolerances input[type="checkbox"]:checked').forEach(checkbox => {
+            intolerances += checkbox.value + ',';
+        });
+        intolerances = intolerances.slice(0, -1); // Remove the trailing comma
+console.log(intolerances);
+// Save intolerances locally
+        localStorage.setItem('intolerances', intolerances);
+
+// Get selected equipment as a comma-separated string
+        let availableEquipment = "";
+        document.querySelectorAll('#availableEquipment input[type="checkbox"]:checked').forEach(checkbox => {
+            availableEquipment += checkbox.value + ',';
+        });
+        availableEquipment = availableEquipment.slice(0, -1); // Remove the trailing comma
+        const maxReadyTime = document.getElementById('maxReadyTime').value;
+// Save available equipment locally
+        localStorage.setItem('availableEquipment', availableEquipment);
+console.log(availableEquipment);
+        // Store diet value locally to remember preference
+        localStorage.setItem('diet', dietValue);
         if(selectedItems.length === 0) {
             //select all items
             const checkboxes = document.querySelectorAll('.itemCheckbox');
@@ -550,17 +680,36 @@
             });
         }
         try {
-            const response = await fetch('/getRecipe', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    selectedItems: selectedItems,
-                    number: number,
-                    diet: dietValue
-                })
-            });
+            //if search method is simple then send a post request to /getRecipe
+            let response = "";
+            if(searchMethod === "simple") {
+                 response = await fetch('/getRecipe', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        selectedItems: selectedItems,
+                        number: number,
+                        diet: dietValue
+                    })
+                });
+            } else if(searchMethod === "complex"){
+                response = await fetch('/getComplexRecipes', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        selectedItems: selectedItems,
+                        number: number,
+                        diet: dietValue,
+                        intolerances: intolerances,
+                        availableEquipment: availableEquipment,
+                        maxReadyTime: maxReadyTime
+                    })
+                });
+            }
 
             const recipes = await response.json();
 
@@ -709,6 +858,47 @@
 
         $('#recipeModal').modal('show');
     }
+
+    document.getElementById('startScan').addEventListener('click', function() {
+        //Change the input method to barcode
+        document.getElementById('inputMethod').value = 'barcode';
+        // Show the scanner container
+        document.getElementById('scanner-container').style.display = 'block';
+
+        Quagga.init({
+            inputStream: {
+                type: "LiveStream",
+                constraints: {
+                    facingMode: "environment" // use the rear camera
+                },
+                target: document.querySelector('#scanner-container') // Pass the DOM element of your choice
+            },
+            decoder: {
+                readers: ["ean_reader", "upc_reader", "upc_e_reader"] // including EAN, UPC-A, and UPC-E readers
+            }
+        }, function(err) {
+            if (err) {
+                console.log(err);
+                alert('Error starting the scanner.');
+                return;
+            }
+            Quagga.start();
+        });
+
+        Quagga.onDetected(function(result) {
+            Quagga.stop(); // stop scanning once a barcode is detected
+
+            const barcode = result.codeResult.code;
+            document.getElementById('inputField').value = barcode; // populate the input field
+
+            //Add item by clicking the add item button
+            document.getElementById('addItemButton').click();
+
+            // Hide the scanner container
+            document.getElementById('scanner-container').style.display = 'none';
+        });
+    });
+
 
 
 
