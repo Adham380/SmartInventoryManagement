@@ -11,7 +11,11 @@ How to generate the pem keys in /bin
 # Generating Local SSL Certificates with mkcert
 
 `mkcert` is a tool that simplifies the process of creating locally trusted SSL certificates for development purposes. Follow the steps below to install `mkcert` and generate your SSL certificates.
-
+## Step 0: Prerequisites
+Navigate to /bin if you are not already there.
+```bash
+cd bin
+```
 ## Step 1: Installing mkcert
 
 ### macOS:
@@ -60,6 +64,17 @@ mkcert localhost 127.0.0.1 ::1
 
 This command creates SSL certificates for localhost and saves them in the current directory.
 
+## Step 5: Navigate back to the root directory
+
+```bash
+cd ..
+```
 ---
 
 Now, you should have the SSL certificates generated and ready to be used by the application. Remember to keep your certificates secure and don’t share them publicly.
+
+## Step 6: Running the application
+
+```bash
+node bin/www
+```
