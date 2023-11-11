@@ -10,9 +10,44 @@ var http = require('http');
 var https = require('https'); // <-- Import HTTPS module
 var fs = require('fs'); // <-- Import File System module to read the certificates
 // Point to the generated certificates
-//list files found in the directory
-const certificate = fs.readFileSync(__dirname + '/localhost+2.pem', 'utf8');
-const privateKey = fs.readFileSync(__dirname + '/localhost+2-key.pem', 'utf8');
+let certificate;
+let privateKey;
+let useDefaultFiles = false;
+
+try {
+  certificate = fs.readFileSync(process.env.PUBLIC_KEY, 'utf8');
+} catch (error) {
+  if (error.code === 'ENOENT') {
+    useDefaultFiles = true;
+  } else {
+    throw error; // Re-throw the error if it's not a 'file not found' error
+  }
+}
+
+try {
+  if (useDefaultFiles) {
+    privateKey = fs.readFileSync(__dirname + '/localhost+2-key.pem', 'utf8');
+  } else {
+    privateKey = fs.readFileSync(process.env.PRIVATE_KEY, 'utf8');
+  }
+} catch (error) {
+  if (error.code === 'ENOENT' || useDefaultFiles) {
+    privateKey = fs.readFileSync(__dirname + '/localhost+2-key.pem', 'utf8');
+    if (!certificate) {
+      // Load the certificate from the default file if it wasn't loaded earlier
+      certificate = fs.readFileSync(__dirname + '/localhost+2.pem', 'utf8');
+    }
+  } else {
+    throw error; // Re-throw the error if it's not a 'file not found' error
+  }
+}
+
+// Ensure certificate is loaded if it wasn't loaded earlier
+if (!certificate) {
+  certificate = fs.readFileSync(__dirname + '/localhost+2.pem', 'utf8');
+}
+
+
 const credentials = { key: privateKey, cert: certificate };
 
 /**

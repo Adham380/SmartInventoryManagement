@@ -1373,5 +1373,41 @@
         "unitLong": "",
         "meta": [],
         "count": 1
+    },
+    "Hummus": {
+        "id": 16158,
+        "original": "Hummus",
+        "originalName": "Hummus",
+        "name": "hummus",
+        "amount": 2,
+        "unit": "servings",
+        "unitShort": "servings",
+        "unitLong": "servings",
+        "possibleUnits": [
+            "g",
+            "oz",
+            "cup",
+            "serving",
+            "tablespoon"
+        ],
+        "estimatedCost": {
+            "value": 66,
+            "unit": "US Cents"
+        },
+        "consistency": "solid",
+        "aisle": "Refrigerated",
+        "image": "hummus.jpg",
+        "meta": [],
+        "count": 1
+    },
+    "Taboule": {
+        "original": "Taboule",
+        "originalName": "Taboule",
+        "name": "taboule",
+        "amount": 2,
+        "unitShort": "servings",
+        "unitLong": "servings",
+        "meta": [],
+        "count": 2
     }
 }
