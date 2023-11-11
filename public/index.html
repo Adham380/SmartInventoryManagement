@@ -493,11 +493,12 @@ const searchMethodDropdown = document.getElementById('searchMethod');
                 // Image thumbnail
                 const itemImage = document.createElement('img');
                 itemImage.className = 'card-img-top';
-                if(!item.image.includes('http')){
+                if(!item.image || !item.image.includes('http')){
                 itemImage.src = "https://spoonacular.com/cdn/ingredients_500x500/" + item.image;
                 } else {
                 itemImage.src = item.image;
                 }
+
                 itemImage.alt = title;
                 card.appendChild(itemImage);
 
@@ -542,10 +543,13 @@ const searchMethodDropdown = document.getElementById('searchMethod');
                             })
                         });
 
-                        await response.json();
-                        if(response.status === 200) {
-                            // success
-                            alert('Item updated successfully!');
+                        const responseData = await response.json();
+                        console.log(responseData)
+                        if(response.status === 205) {
+                            // refresh
+                            await fetchAndDisplayInventory(true);
+                        } else if(response.status === 200){
+                            console.log("Success")
                         } else {
                             // error
                             alert('Error updating item!');
@@ -553,6 +557,7 @@ const searchMethodDropdown = document.getElementById('searchMethod');
                         // You can also update the JSON/database here if required
                     }
                 });
+
                 // Position the button to the top right of the card
                 editButton.style.position = 'absolute';
                 editButton.style.top = '10px';

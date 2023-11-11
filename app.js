@@ -281,15 +281,17 @@ app.patch('/updateItem', async function (req, res, next) {
     if (inventory[title]) {
         if(req.body.count == 0) {
             delete inventory[title];
+            res.status(205).json({message: "Item deleted"});
         } else {
-            inventory[title].count = parseInt(req.body.count)
+            inventory[title].count = parseInt(req.body.count);
+            saveData(inventory); // Save the updated data
+            res.status(200).json({message: "Item updated successfully"});
         }
     } else {
-        res.status(400).send('Item not found');
+        res.status(400).json({message: 'Item not found'});
     }
-    saveData(inventory); // Save the updated data
-    res.send('Item updated in database');
-})
+});
+
 //remove item from database
 app.delete('/removeItem', async function (req, res, next) {
     const title = req.body.title;

@@ -1335,35 +1335,6 @@
         "meta": [],
         "count": 1
     },
-    "High protein pudding 20g vanille": {
-        "id": 1052050,
-        "original": "High protein pudding 20g vanille",
-        "originalName": "High protein pudding vanille",
-        "name": "high protein pudding vanille",
-        "amount": 20,
-        "unit": "g",
-        "unitShort": "g",
-        "unitLong": "grams",
-        "possibleUnits": [
-            "drop",
-            "g",
-            "oz",
-            "dash",
-            "teaspoon",
-            "cup",
-            "serving",
-            "tablespoon"
-        ],
-        "estimatedCost": {
-            "value": 149.15,
-            "unit": "US Cents"
-        },
-        "consistency": "solid",
-        "aisle": "Baking",
-        "image": "vanilla.jpg",
-        "meta": [],
-        "count": 1
-    },
     "04310402": {
         "original": "04310402",
         "originalName": "",
@@ -1371,6 +1342,41 @@
         "amount": 4310402,
         "unitShort": "",
         "unitLong": "",
+        "meta": [],
+        "count": 1
+    },
+    "Quark": {
+        "id": 93676,
+        "original": "Quark",
+        "originalName": "Quark",
+        "name": "quark",
+        "amount": 2,
+        "unit": "servings",
+        "unitShort": "servings",
+        "unitLong": "servings",
+        "possibleUnits": [
+            "g",
+            "oz",
+            "cup",
+            "tablespoon"
+        ],
+        "estimatedCost": {
+            "value": 2.64,
+            "unit": "US Cents"
+        },
+        "consistency": "solid",
+        "aisle": "Milk, Eggs, Other Dairy",
+        "image": "white-cream-fluffy.jpg",
+        "meta": [],
+        "count": 1
+    },
+    "Müsli": {
+        "original": "Müsli",
+        "originalName": "Müsli",
+        "name": "müsli",
+        "amount": 2,
+        "unitShort": "servings",
+        "unitLong": "servings",
         "meta": [],
         "count": 1
     },
@@ -1409,5 +1415,32 @@
         "unitLong": "servings",
         "meta": [],
         "count": 2
+    },
+    "coca cola": {
+        "id": 14400,
+        "original": "coca cola",
+        "originalName": "coca cola",
+        "name": "coca cola",
+        "amount": 2,
+        "unit": "servings",
+        "unitShort": "servings",
+        "unitLong": "servings",
+        "possibleUnits": [
+            "can",
+            "g",
+            "tin",
+            "oz",
+            "fluid ounce",
+            "cup"
+        ],
+        "estimatedCost": {
+            "value": 0.14,
+            "unit": "US Cents"
+        },
+        "consistency": "solid",
+        "aisle": "Beverages",
+        "image": "coca-cola.png",
+        "meta": [],
+        "count": 1
     }
 }
