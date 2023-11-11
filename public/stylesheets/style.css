@@ -8,6 +8,7 @@
 }
 .card-body{
   max-height: 15vh;
+  padding: 1vh !important;
 }
 .recipe-card-body{
   display: flex;

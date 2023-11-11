@@ -236,9 +236,7 @@ const searchMethodDropdown = document.getElementById('searchMethod');
         const keys = Object.keys(localStorage);
         const recentRecipesArray = [];
         keys.forEach(key => {
-            console.log(key);
             if(!isNaN(key)){
-                console.log(key);
                 recentRecipesArray.push(JSON.parse(localStorage.getItem(key)));
             }
         });
@@ -275,8 +273,6 @@ const searchMethodDropdown = document.getElementById('searchMethod');
             //sort by aisle
             console.log('sort by aisle')
             const sortedItems = Array.from(inventoryItems).sort((a, b) => {
-                console.log(a.dataset.aisle);
-                console.log(b.dataset.aisle);
                 const aAisle = a.dataset.aisle;
                 const bAisle = b.dataset.aisle;
                 return aAisle.localeCompare(bAisle);
@@ -428,7 +424,6 @@ const searchMethodDropdown = document.getElementById('searchMethod');
                 },
                 body: JSON.stringify(payload)
             });
-            console.log(response.status);
             if(response.status === 200) {
                 //clear input field
                 // success
@@ -453,12 +448,10 @@ const searchMethodDropdown = document.getElementById('searchMethod');
             let inventory = await response.json();
             //filter items that fulfill the condition that the key that is called "id" exists and the value is a number
             inventory = Object.fromEntries(Object.entries(inventory).filter(([key, value]) => isNaN(key)));
-            console.log(inventory);
             // inventory = Object.fromEntries(Object.entries(inventory).reverse());
             refreshBoolean = refreshBoolean || false;
 
             const inventoryGrid = document.getElementById('inventoryGrid');
-            // inventoryGrid.innerHTML = ''; // Clear previous items
 
             for (let title in inventory) {
                 const item = inventory[title];
@@ -530,7 +523,6 @@ const searchMethodDropdown = document.getElementById('searchMethod');
                     // Handle the edit action here
                     const newcount = prompt(`Edit count for ${title}`, item.count);
                     if (newcount && !isNaN(newcount)) {
-                        console.log('New count:', newcount);
                         item.count = parseInt(newcount);
                         countElement.textContent = `count: ${item.count}`;
                         //update item
@@ -668,7 +660,6 @@ const searchMethodDropdown = document.getElementById('searchMethod');
             intolerances += checkbox.value + ',';
         });
         intolerances = intolerances.slice(0, -1); // Remove the trailing comma
-console.log(intolerances);
 // Save intolerances locally
         localStorage.setItem('intolerances', intolerances);
 
@@ -681,7 +672,6 @@ console.log(intolerances);
         const maxReadyTime = document.getElementById('maxReadyTime').value;
 // Save available equipment locally
         localStorage.setItem('availableEquipment', availableEquipment);
-console.log(availableEquipment);
         // Store diet value locally to remember preference
         localStorage.setItem('diet', dietValue);
         if(selectedItems.length === 0) {
@@ -811,7 +801,6 @@ console.log(availableEquipment);
             //get the recipe card per rest api
             const response = await fetch(`/getRecipeCard/${recipeId}?language=de`);
             recipeCard = await response.json();
-            console.log(recipeCard);
             if(recipeCard.status === "success"){
                 localStorage.setItem(cardId, JSON.stringify(recipeCard));
             } else {
