@@ -37,6 +37,12 @@ app.get('/inventory', function(req, res) {
 
 app.get('/getInventory', function(req, res, next) {
     const inventory = loadData();
+    // console.log(inventory);
+    // //reverse the order of the items
+    // const inventoryReversed = {};
+    // Object.keys(inventory).reverse().forEach(function(key) {
+    //     inventoryReversed[key] = inventory[key];
+    // });
     res.json(inventory);
 });
 
@@ -275,22 +281,34 @@ app.post('/addItemByTitle', async function (req, res, next) {
     res.send('Item added to database');
 })
 app.patch('/updateItem', async function (req, res, next) {
-    const title = req.body.title;
-    const inventory = loadData();
-    // Check if the item already exists
-    if (inventory[title]) {
-        if(req.body.count == 0) {
-            delete inventory[title];
-            res.status(205).json({message: "Item deleted"});
-        } else {
-            inventory[title].count = parseInt(req.body.count);
-            saveData(inventory); // Save the updated data
-            res.status(200).json({message: "Item updated successfully"});
+    try {
+        const title = req.body.title;
+        const newCount = parseInt(req.body.count);
+
+        if (isNaN(newCount) || newCount < 0) {
+            return res.status(400).json({ message: 'Invalid count value' });
         }
-    } else {
-        res.status(400).json({message: 'Item not found'});
+
+        const inventory = loadData();
+        if (inventory[title]) {
+            if (newCount === 0) {
+                delete inventory[title];
+                saveData(inventory);
+                res.status(205).json({ message: "Item deleted" });
+            } else {
+                inventory[title].count = newCount;
+                saveData(inventory);
+                res.status(200).json({ message: "Item updated successfully" });
+            }
+        } else {
+            res.status(400).json({ message: 'Item not found' });
+        }
+    } catch (error) {
+        console.error('Error in /updateItem:', error);
+        res.status(500).json({ message: 'Internal Server Error' });
     }
 });
+
 
 //remove item from database
 app.delete('/removeItem', async function (req, res, next) {

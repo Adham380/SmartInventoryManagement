@@ -1380,46 +1380,10 @@
         "meta": [],
         "count": 1
     },
-    "Hummus": {
-        "id": 16158,
-        "original": "Hummus",
-        "originalName": "Hummus",
-        "name": "hummus",
-        "amount": 2,
-        "unit": "servings",
-        "unitShort": "servings",
-        "unitLong": "servings",
-        "possibleUnits": [
-            "g",
-            "oz",
-            "cup",
-            "serving",
-            "tablespoon"
-        ],
-        "estimatedCost": {
-            "value": 66,
-            "unit": "US Cents"
-        },
-        "consistency": "solid",
-        "aisle": "Refrigerated",
-        "image": "hummus.jpg",
-        "meta": [],
-        "count": 1
-    },
-    "Taboule": {
-        "original": "Taboule",
-        "originalName": "Taboule",
-        "name": "taboule",
-        "amount": 2,
-        "unitShort": "servings",
-        "unitLong": "servings",
-        "meta": [],
-        "count": 2
-    },
-    "coca cola": {
+    "Coca cola": {
         "id": 14400,
-        "original": "coca cola",
-        "originalName": "coca cola",
+        "original": "Coca cola",
+        "originalName": "Coca cola",
         "name": "coca cola",
         "amount": 2,
         "unit": "servings",
@@ -1440,6 +1404,71 @@
         "consistency": "solid",
         "aisle": "Beverages",
         "image": "coca-cola.png",
+        "meta": [],
+        "count": 1
+    },
+    "mango juice": {
+        "id": 9176,
+        "original": "mango juice",
+        "originalName": "mango juice",
+        "name": "mango juice",
+        "amount": 2,
+        "unit": "servings",
+        "unitShort": "servings",
+        "unitLong": "servings",
+        "possibleUnits": [
+            "piece",
+            "g",
+            "oz",
+            "cup piece",
+            "cup"
+        ],
+        "estimatedCost": {
+            "value": 1.45,
+            "unit": "US Cents"
+        },
+        "consistency": "solid",
+        "shoppingListUnits": [
+            "pieces"
+        ],
+        "aisle": "Produce",
+        "image": "mango.jpg",
+        "meta": [],
+        "count": 1
+    },
+    "orange juice": {
+        "id": 9206,
+        "original": "orange juice",
+        "originalName": "orange juice",
+        "name": "orange juice",
+        "amount": 2,
+        "unit": "servings",
+        "unitShort": "servings",
+        "unitLong": "servings",
+        "possibleUnits": [
+            "piece",
+            "g",
+            "oz",
+            "teaspoon",
+            "fluid ounce",
+            "cup",
+            "fruit yield",
+            "serving",
+            "tablespoon"
+        ],
+        "estimatedCost": {
+            "value": 69.15,
+            "unit": "US Cents"
+        },
+        "consistency": "liquid",
+        "shoppingListUnits": [
+            "ounces",
+            "pints",
+            "quarts",
+            "gallons"
+        ],
+        "aisle": "Beverages",
+        "image": "orange-juice.jpg",
         "meta": [],
         "count": 1
     }

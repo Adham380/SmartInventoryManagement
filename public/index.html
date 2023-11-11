@@ -432,7 +432,7 @@ const searchMethodDropdown = document.getElementById('searchMethod');
             if(response.status === 200) {
                 //clear input field
                 // success
-                await fetchAndDisplayInventory()
+                await fetchAndDisplayInventory(true)
             } else {
                 // error
                 alert('Error adding item!');
@@ -453,7 +453,8 @@ const searchMethodDropdown = document.getElementById('searchMethod');
             let inventory = await response.json();
             //filter items that fulfill the condition that the key that is called "id" exists and the value is a number
             inventory = Object.fromEntries(Object.entries(inventory).filter(([key, value]) => isNaN(key)));
-
+            console.log(inventory);
+            // inventory = Object.fromEntries(Object.entries(inventory).reverse());
             refreshBoolean = refreshBoolean || false;
 
             const inventoryGrid = document.getElementById('inventoryGrid');
@@ -466,6 +467,7 @@ const searchMethodDropdown = document.getElementById('searchMethod');
                 const cardBodies = document.querySelectorAll('.card-body');
                 let cardExists = false;
                 cardBodies.forEach(cardBody => {
+                    //if card count == 0 then remove it
                     if(cardBody.querySelector('.card-title').textContent === title && cardBody.querySelector('.card-text').textContent == `count: ${item.count}`){
                         cardExists = true;
                     } else if (cardBody.querySelector('.card-title').textContent === title && cardBody.querySelector('.card-text').textContent != `count: ${item.count}`){
@@ -543,20 +545,20 @@ const searchMethodDropdown = document.getElementById('searchMethod');
                             })
                         });
 
-                        const responseData = await response.json();
-                        console.log(responseData)
-                        if(response.status === 205) {
-                            // refresh
+// Check the response status directly
+                        if (response.status === 205) {
+                            // Handle 205 Reset Content
+                            // Perform the necessary reset or update actions here
                             await fetchAndDisplayInventory(true);
-                        } else if(response.status === 200){
-                            console.log("Success")
+                        } else if (response.status === 200) {
+                            console.log("Success");
+                            // Handle other success scenarios
                         } else {
-                            // error
+                            // Handle error scenarios
                             alert('Error updating item!');
                         }
-                        // You can also update the JSON/database here if required
-                    }
-                });
+
+                    }});
 
                 // Position the button to the top right of the card
                 editButton.style.position = 'absolute';
@@ -566,7 +568,7 @@ const searchMethodDropdown = document.getElementById('searchMethod');
                 card.appendChild(editButton);
                 card.appendChild(cardBody);
                 itemDiv.appendChild(card);
-                inventoryGrid.appendChild(itemDiv);
+                inventoryGrid.prepend(itemDiv);
                 renderItems();
             }
         } catch (error) {
